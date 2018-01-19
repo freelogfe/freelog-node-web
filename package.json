@@ -1,0 +1,40 @@
+{
+  "name": "freelog-node-web",
+  "version": "1.0.0",
+  "description": "飞致网络节点主页",
+  "private": true,
+  "egg": {
+    "framework": "egg-freelog-base"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "egg": "^2.0.0",
+    "egg-freelog-base": "^1.1.31",
+    "knex": "^0.14.2",
+    "mysql2": "^1.5.1"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "stop": "egg-scripts stop",
+    "dev": "egg-bin dev",
+    "debug": "egg-bin debug",
+    "test": "npm run lint -- --fix && npm run test-local",
+    "test-local": "egg-bin test",
+    "cov": "egg-bin cov",
+    "lint": "eslint .",
+    "ci": "npm run lint && npm run cov",
+    "autod": "autod"
+  },
+  "ci": {
+    "version": "8,9"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "yuliang",
+  "license": "MIT"
+}
