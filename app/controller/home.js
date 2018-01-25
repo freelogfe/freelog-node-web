@@ -23,7 +23,7 @@ module.exports = class HomeController extends Controller {
             return
         }
 
-        let pbResource = await ctx.curlIntranetApi(`${this.config.gatewayUrl}/v1/presentables/resource/${pageBuild.presentableId}.data?nodeId=${nodeInfo.nodeId}`, {dataType: 'original'}).then(response => {
+        let pbResource = await ctx.curlIntranetApi(`${this.config.gatewayUrl}/api/v1/presentables/resource/${pageBuild.presentableId}.data?nodeId=${nodeInfo.nodeId}`, {dataType: 'original'}).then(response => {
             if (response.res.headers['content-type'].indexOf('application/json') > -1) {
                 return JSON.parse(response.data.toString())
             } else {
