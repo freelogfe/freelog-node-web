@@ -14,6 +14,7 @@ module.exports = (option, app) => {
 
     return async function (ctx, next) {
         try {
+
             let nodeDomain = ctx.host.replace('.freelog.com', '')
 
             if (!commonRegex.nodeDomain.test(nodeDomain)) {
@@ -34,7 +35,6 @@ module.exports = (option, app) => {
             ctx.request.nodeInfo = nodeInfo
 
             await next()
-
         } catch (e) {
             ctx.body = `<h1>出错啦~,error:${e.message}</h1>`
             return
