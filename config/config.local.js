@@ -12,6 +12,32 @@ module.exports = appInfo => {
 
         middleware: ['nodeDomainAuth', 'identityCookieAuthentication'],
 
+        mongoose: {
+            url: "mongodb://192.168.0.99:27017/auth"
+        },
+
+        // knex: {
+        //     node: {
+        //         client: 'mysql2',
+        //         connection: {
+        //             host: '192.168.0.99',
+        //             user: 'root',
+        //             password: 'yuliang@@',
+        //             database: 'fr_node',
+        //             charset: 'utf8',
+        //             timezone: '+08:00',
+        //             bigNumberStrings: true,
+        //             supportBigNumbers: true,
+        //             connectTimeout: 10000
+        //         },
+        //         pool: {
+        //             maxConnections: 50,
+        //             minConnections: 1,
+        //         },
+        //         acquireConnectionTimeout: 10000,
+        //         debug: false
+        //     },
+        // }
         // /**
         //  * 本地开发环境身份信息
         //  */

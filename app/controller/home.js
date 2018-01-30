@@ -13,10 +13,7 @@ module.exports = class HomeController extends Controller {
 
         let userId = ctx.request.userId || 0
         let nodeInfo = ctx.request.nodeInfo
-        let pageBuild = await ctx.app.dataProvider.nodePageBuildProvider.getNodePageBuild({
-            nodeId: nodeInfo.nodeId,
-            status: 1
-        })
+        let pageBuild = await ctx.dal.nodePageBuildProvider.getNodePageBuild({nodeId: nodeInfo.nodeId, status: 1})
 
         if (!pageBuild) {
             ctx.body = '<h1>节点还未初始化</h1>'
@@ -32,7 +29,7 @@ module.exports = class HomeController extends Controller {
         })
 
         if (!pbResource.res && !pbResource.status) {
-            if (pbResource.ret === 2 && pbResource.errcode === 30) {
+            if (pbResource.ret === 2 && (pbResource.errcode === 30 || pbResource.errcode === 28)) {
                 ctx.redirect(`http://www.freelog.com/pages/user/login.html?redirect=${encodeURIComponent(`http://${ctx.host}/`)}`)
             }
             ctx.body = ctx.helper.nodeTemplateHelper.convertErrorNodePageBuild(this.config.nodeTemplate, nodeInfo.nodeId, userId, pbResource)

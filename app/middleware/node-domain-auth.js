@@ -22,7 +22,8 @@ module.exports = (option, app) => {
                 return
             }
 
-            let nodeInfo = await ctx.app.dataProvider.nodeProvider.getNodeInfo({nodeDomain})
+            let nodeInfo = await ctx.dal.nodeProvider.getNodeInfo({nodeDomain})
+
             if (!nodeInfo) {
                 ctx.body = '<h1>sorry,this is not freelog website</h1>'
                 return
@@ -36,7 +37,7 @@ module.exports = (option, app) => {
 
             await next()
         } catch (e) {
-            ctx.body = `<h1>出错啦~,error:${e.message}</h1>`
+            ctx.body = `<h2>出错啦~,error:${e.message}</h2>`
             return
         }
     }
