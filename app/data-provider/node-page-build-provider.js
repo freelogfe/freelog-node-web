@@ -15,6 +15,6 @@ module.exports = class NodeProvider extends KnexBaseOperation {
      * @returns {*}
      */
     getNodePageBuild(condition) {
-        return super.find(condition).first()
+        return super.findOne(condition)
     }
 }

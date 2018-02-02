@@ -12,10 +12,6 @@ module.exports = appInfo => {
 
         middleware: ['nodeDomainAuth', 'identityCookieAuthentication'],
 
-        mongoose: {
-            url: "mongodb://192.168.0.99:27017/auth"
-        },
-
         // knex: {
         //     node: {
         //         client: 'mysql2',

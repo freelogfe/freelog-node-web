@@ -1,6 +1,6 @@
 'use strict';
 
-exports.eggFreelogDatabase = {
+exports.freelogDataBase = {
     enable: true,
     package: 'egg-freelog-database',
 };

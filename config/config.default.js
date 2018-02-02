@@ -14,7 +14,7 @@ module.exports = appInfo => {
      */
     config.dbConfig = {
         node: {
-            client: 'mysql2',
+            client: 'mysql',
             connection: {
                 host: '192.168.0.99',
                 user: 'root',
@@ -27,10 +27,16 @@ module.exports = appInfo => {
                 connectTimeout: 10000
             },
             pool: {
-                maxConnections: 50,
-                minConnections: 1,
+                max: 10, min: 2,
+                afterCreate: (conn, done) => {
+                    conn.on('error', err => {
+                        console.log(`mysql connection error : ${err.toString()}`)
+                        err.fatal && globalInfo.app.knex.resource.client.pool.destroy(conn)
+                    })
+                    done()
+                }
             },
-            acquireConnectionTimeout: 10000,
+            acquireConnectionTimeout: 800,
             debug: false
         },
     }
