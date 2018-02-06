@@ -12,7 +12,7 @@ module.exports = appInfo => {
     /**
      * DB-mysql相关配置
      */
-    config.dbConfig = {
+    config.knex = {
         node: {
             client: 'mysql',
             connection: {
