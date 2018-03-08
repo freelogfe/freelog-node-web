@@ -18,7 +18,7 @@ module.exports = (option, app) => {
             let nodeDomain = ctx.host.replace(/(.freelog.com|.test.freelog.com)/i, '')
 
             if (!commonRegex.nodeDomain.test(nodeDomain)) {
-                ctx.body = '<h1>sorry,this is not freelog website</h1>'
+                ctx.body = '<h1>sorry,${nodeDomain} is not freelog website</h1>'
                 return
             }
 
