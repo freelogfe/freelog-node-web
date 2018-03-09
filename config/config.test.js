@@ -16,5 +16,5 @@ module.exports = {
 
     gatewayUrl: "http://172.18.215.224:8895/test",
 
-    nodeHomePageTemplateUrl: "http://frcdn.oss-cn-shenzhen.aliyuncs.com/web-components/index.html"
+    nodeHomePageTemplateUrl: "http://test-frcdn.oss-cn-shenzhen.aliyuncs.com/pagebuild/index.html"
 }
