@@ -1,9 +1,7 @@
 'use strict'
 
 module.exports = {
-    /**
-     * DB-mysql相关配置
-     */
+
     knex: {
         node: {
             connection: {
@@ -16,11 +14,7 @@ module.exports = {
         }
     },
 
-    /**
-     * api网关内网地址
-     */
-    gatewayUrl: "http://172.18.215.224:8895",
-
+    gatewayUrl: "http://172.18.215.224:8895/test",
 
     nodeHomePageTemplateUrl: "http://frcdn.oss-cn-shenzhen.aliyuncs.com/web-components/index.html"
 }
