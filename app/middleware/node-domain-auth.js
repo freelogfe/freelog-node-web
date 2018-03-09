@@ -15,10 +15,10 @@ module.exports = (option, app) => {
     return async function (ctx, next) {
         try {
 
-            let nodeDomain = ctx.host.replace('.freelog.com', '')
+            let nodeDomain = ctx.host.replace(/(.freelog.com|.test.freelog.com||.testfreelog.com)/i, '')
 
             if (!commonRegex.nodeDomain.test(nodeDomain)) {
-                ctx.body = '<h1>sorry,this is not freelog website</h1>'
+                ctx.body = '<h1>sorry,${nodeDomain} is not freelog website</h1>'
                 return
             }
 

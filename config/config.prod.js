@@ -16,12 +16,9 @@ module.exports = appInfo => {
                 debug: false
             }
         },
+        
+        gatewayUrl: "http://172.18.215.224:8895",
 
-        /**
-         * api网关内网地址
-         */
-        //gatewayUrl: "http://172.18.215.224:8895",
-
-        nodeHomePageTemplateUrl: "http://frcdn.oss-cn-shenzhen.aliyuncs.com/web-components/index.html"
+        nodeHomePageTemplateUrl: "http://frcdn.oss-cn-shenzhen.aliyuncs.com/pagebuild/index.html"
     }
 }
