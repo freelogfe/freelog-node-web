@@ -1,5 +1,7 @@
 'use strict';
 
+const globalInfo = require('egg-freelog-base/globalInfo')
+
 module.exports = appInfo => {
     const config = {};
 
