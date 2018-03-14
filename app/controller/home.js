@@ -30,7 +30,8 @@ module.exports = class HomeController extends Controller {
 
         if (!pbResource.res && !pbResource.status) {
             if (pbResource.ret === 2 && (pbResource.errcode === 30 || pbResource.errcode === 28)) {
-                ctx.redirect(`http://www.freelog.com/pages/user/login.html?redirect=${encodeURIComponent(`http://${ctx.host}/`)}`)
+                console.log(pbResource.ret, pbResource.errcode)
+                ctx.redirect(`https://www.freelog.com/pages/user/login.html?redirect=${encodeURIComponent(`https://${ctx.host}/`)}`)
             }
             ctx.body = ctx.helper.nodeTemplateHelper.convertErrorNodePageBuild(this.config.nodeTemplate, nodeInfo.nodeId, userId, pbResource)
             return
