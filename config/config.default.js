@@ -59,5 +59,11 @@ module.exports = appInfo => {
      */
     config.nodeHomePageTemplateUrl = "http://static.freelog.com/web-components/index.html"
 
+    config.alinode = {
+        enable: true,
+        appid: 2675,
+        secret: '477c60068500a2b8e9fa3b5619fdfb58689ea20e',
+    };
+
     return config;
 };

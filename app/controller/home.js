@@ -13,14 +13,14 @@ module.exports = class HomeController extends Controller {
 
         let userId = ctx.request.userId || 0
         let nodeInfo = ctx.request.nodeInfo
-        let pageBuild = await ctx.dal.nodePageBuildProvider.getNodePageBuild({nodeId: nodeInfo.nodeId, status: 1})
+        let pageBuild = await ctx.dal.nodePageBuildProvider.getNodePageBuild({ nodeId: nodeInfo.nodeId, status: 1 })
 
         if (!pageBuild) {
             ctx.body = '<h1>节点还未初始化</h1>'
             return
         }
 
-        let pbResource = await ctx.curlIntranetApi(`${this.config.gatewayUrl}/api/v1/presentables/resource/${pageBuild.presentableId}.data?nodeId=${nodeInfo.nodeId}`, {dataType: 'original'}).then(response => {
+        let pbResource = await ctx.curlIntranetApi(`${this.config.gatewayUrl}/api/v1/presentables/resource/${pageBuild.presentableId}.data?nodeId=${nodeInfo.nodeId}`, { dataType: 'original' }).then(response => {
             if (response.res.headers['content-type'].indexOf('application/json') > -1) {
                 return JSON.parse(response.data.toString())
             } else {

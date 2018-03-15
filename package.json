@@ -9,6 +9,7 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "egg": "^2.4.1",
+    "egg-alinode": "^2.0.1",
     "egg-freelog-base": "^1.1.39",
     "egg-freelog-database": "^1.0.5",
     "knex": "^0.14.4",
