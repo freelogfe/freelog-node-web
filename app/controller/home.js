@@ -40,7 +40,7 @@ module.exports = class HomeController extends Controller {
         let widgetRelevancePresentables =
             await ctx.curlIntranetApi(`${this.config.gatewayUrl}/api/v1/presentables/pageBuildAssociateWidgetPresentable?presentableId=${pageBuild.presentableId}`)
 
-        ctx.body = ctx.helper.nodeTemplateHelper.convertNodePageBuild(this.config.nodeTemplate, pbResource.data.toString(), nodeInfo.nodeId, userId, widgetRelevancePresentables)
+        ctx.body = ctx.helper.nodeTemplateHelper.convertNodePageBuild(this.config.nodeTemplate, pbResource.data.toString(), nodeInfo, userId, widgetRelevancePresentables)
     }
 }
 

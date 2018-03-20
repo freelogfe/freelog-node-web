@@ -13,7 +13,7 @@ module.exports = {
      * @param template 模本内容
      * @param pageBuildStr PB文件
      */
-    convertNodePageBuild (template, pageBuildStr, nodeId, userId, presentables = []){
+    convertNodePageBuild(template, pageBuildStr, nodeInfo, userId, presentables = []) {
 
         let $ = cheerio.load(template)
 
@@ -25,10 +25,12 @@ module.exports = {
 
         let authInfo = {
             __auth_user_id__: userId,
-            __auth_node_id__: nodeId
+            __auth_node_id__: nodeInfo.nodeId
         }
 
+        $(`<title>${nodeInfo.nodeName}-飞致节点</title>`).appendTo('head')
         $(`<script> window.__auth_info__ = ${ JSON.stringify(authInfo) } </script>`).appendTo('head')
+
 
         return $.html()
     },
@@ -38,7 +40,7 @@ module.exports = {
      * @param template
      * @param authErrorInfo
      */
-    convertErrorNodePageBuild (template, nodeId, userId, authErrorInfo){
+    convertErrorNodePageBuild(template, nodeId, userId, authErrorInfo) {
 
         let $ = cheerio.load(template)
 
