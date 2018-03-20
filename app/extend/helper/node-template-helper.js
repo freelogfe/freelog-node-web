@@ -28,7 +28,7 @@ module.exports = {
             __auth_node_id__: nodeInfo.nodeId
         }
 
-        $(`<title>${nodeInfo.nodeName}-飞致节点</title>`).appendTo('head')
+        $(`<title>${nodeInfo.nodeName}-飞致节点</title>`).prepend('head')
         $(`<script> window.__auth_info__ = ${ JSON.stringify(authInfo) } </script>`).appendTo('head')
 
 
