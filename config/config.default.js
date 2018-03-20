@@ -1,5 +1,7 @@
 'use strict';
 
+const globalInfo = require('egg-freelog-base/globalInfo')
+
 module.exports = appInfo => {
     const config = {};
 
@@ -24,18 +26,9 @@ module.exports = appInfo => {
                 timezone: '+08:00',
                 bigNumberStrings: true,
                 supportBigNumbers: true,
-                connectTimeout: 10000
+                connectTimeout: 1500
             },
-            pool: {
-                max: 10, min: 2,
-                afterCreate: (conn, done) => {
-                    conn.on('error', err => {
-                        console.log(`mysql connection error : ${err.toString()}`)
-                        err.fatal && globalInfo.app.knex.resource.client.pool.destroy(conn)
-                    })
-                    done()
-                }
-            },
+            pool: {max: 10, min: 2},
             acquireConnectionTimeout: 800,
             debug: false
         },
@@ -56,6 +49,12 @@ module.exports = appInfo => {
      * 节点首页模板文件地址
      */
     config.nodeHomePageTemplateUrl = "http://static.freelog.com/web-components/index.html"
+
+    config.alinode = {
+        enable: true,
+        appid: 2675,
+        secret: '477c60068500a2b8e9fa3b5619fdfb58689ea20e',
+    };
 
     return config;
 };
