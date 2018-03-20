@@ -33,7 +33,7 @@ module.exports = class HomeController extends Controller {
                 console.log(pbResource.ret, pbResource.errcode)
                 ctx.redirect(`https://www.freelog.com/pages/user/login.html?redirect=${encodeURIComponent(`https://${ctx.host}/`)}`)
             }
-            ctx.body = ctx.helper.nodeTemplateHelper.convertErrorNodePageBuild(this.config.nodeTemplate, nodeInfo.nodeId, userId, pbResource)
+            ctx.body = ctx.helper.nodeTemplateHelper.convertErrorNodePageBuild(this.config.nodeTemplate, nodeInfo, userId, pbResource)
             return
         }
 

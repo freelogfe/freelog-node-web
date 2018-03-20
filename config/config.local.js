@@ -26,7 +26,8 @@ module.exports = appInfo => {
 
         gatewayUrl: "https://api.freelog.com",
 
-        nodeHomePageTemplateUrl: "http://frcdn.oss-cn-shenzhen.aliyuncs.com/pagebuild/index.html"
+        nodeHomePageTemplateUrl: "http://frcdn.oss-cn-shenzhen.aliyuncs.com/pagebuild/index.html",
+
     }
     //
     // return {

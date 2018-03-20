@@ -17,7 +17,7 @@ module.exports = {
 
         let $ = cheerio.load(template)
 
-        $(pageBuildStr).appendTo('#js-page-container')
+        $('#js-page-container').append(pageBuildStr)
 
         presentables.forEach(item => {
             item.presentableId && $(`[data-widget-src=${item.resourceId}]`).attr('data-widget-presentable-id', item.presentableId)
@@ -28,9 +28,8 @@ module.exports = {
             __auth_node_id__: nodeInfo.nodeId
         }
 
-        $(`<title>${nodeInfo.nodeName}-飞致节点</title>`).prepend('head')
-        $(`<script> window.__auth_info__ = ${ JSON.stringify(authInfo) } </script>`).appendTo('head')
-
+        $('head').prepend(`<title>${nodeInfo.nodeName}-飞致节点</title>`)
+        $('head').append(`<script> window.__auth_info__ = ${ JSON.stringify(authInfo) } </script>`)
 
         return $.html()
     },
@@ -40,17 +39,18 @@ module.exports = {
      * @param template
      * @param authErrorInfo
      */
-    convertErrorNodePageBuild(template, nodeId, userId, authErrorInfo) {
+    convertErrorNodePageBuild(template, nodeInfo, userId, authErrorInfo) {
 
         let $ = cheerio.load(template)
 
         let authInfo = {
             __auth_error_info__: authErrorInfo,
             __auth_user_id__: userId,
-            __auth_node_id__: nodeId
+            __auth_node_id__: nodeInfo.nodeId
         }
 
-        $(`<script> window.__auth_info__ = ${ JSON.stringify(authInfo) } </script>`).appendTo('head')
+        $('head').prepend(`<title>${nodeInfo.nodeName}-飞致节点</title>`)
+        $('head').append(`<script> window.__auth_info__ = ${ JSON.stringify(authInfo) } </script>`)
 
         return $.html()
     }
