@@ -25,11 +25,11 @@ module.exports = (option, app) => {
             let nodeInfo = await ctx.dal.nodeProvider.getNodeInfo({nodeDomain})
 
             if (!nodeInfo) {
-                ctx.body = '<h1>sorry,this is not freelog website</h1>'
+                ctx.body = `<h1>sorry,${nodeDomain} is not freelog website</h1>`
                 return
             }
             if (nodeInfo.status === 2) {
-                ctx.body = '<h1>sorry,this website has freezed</h1>'
+                ctx.body = `<h1>sorry,${nodeDomain} is not freelog website</h1>`
                 return
             }
 
