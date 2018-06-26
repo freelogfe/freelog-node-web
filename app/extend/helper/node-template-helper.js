@@ -15,15 +15,15 @@ module.exports = {
      */
     convertNodePageBuild(template, pageBuildStr, nodeInfo, userId, presentables = []) {
 
-        let $ = cheerio.load(template)
+        const $ = cheerio.load(template)
 
         $('#js-page-container').append(pageBuildStr)
 
-        presentables.forEach(item => {
-            item.presentableId && $(`[data-widget-src=${item.resourceId}]`).attr('data-widget-presentable-id', item.presentableId)
-        })
+        // presentables.forEach(item => {
+        //     item.presentableId && $(`[data-widget-src=${item.resourceId}]`).attr('data-widget-presentable-id', item.presentableId)
+        // })
 
-        let authInfo = {
+        const authInfo = {
             __auth_user_id__: userId,
             __auth_node_id__: nodeInfo.nodeId
         }
