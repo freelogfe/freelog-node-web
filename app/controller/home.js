@@ -37,7 +37,7 @@ module.exports = class HomeController extends Controller {
             return
         }
 
-        ctx.body = ctx.helper.nodeTemplateHelper.convertNodePageBuild(config.nodeTemplate, pbResource.data.toString(), nodeInfo, userId)
+        ctx.body = ctx.helper.nodeTemplateHelper.convertNodePageBuild(config.nodeTemplate, pbResource.data.toString(), nodeInfo, userId, pageBuild.presentableId)
     }
 }
 
