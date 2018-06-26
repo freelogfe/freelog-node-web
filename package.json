@@ -8,12 +8,12 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
-    "egg": "^2.4.1",
+    "egg": "^2.9.1",
     "egg-alinode": "^2.0.1",
-    "egg-freelog-base": "^1.1.39",
+    "egg-freelog-base": "^1.1.46",
     "egg-freelog-database": "^1.0.6",
-    "knex": "^0.14.4",
-    "mongoose": "^5.0.11",
+    "knex": "^0.14.6",
+    "mongoose": "^5.1.6",
     "mysql": "^2.15.0"
   },
   "engines": {

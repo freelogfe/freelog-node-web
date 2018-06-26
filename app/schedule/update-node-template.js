@@ -10,15 +10,18 @@ module.exports = class UpdateNodeTemplate extends Subscription {
 
     static get schedule() {
         return {
-            cron: '0 */15 * * * * *', // 15分钟间隔
+            cron: '* */3 * * * * *', // 15分钟间隔
             type: 'worker',
             immediate: false,
         };
     }
 
     async subscribe() {
-        await this.ctx.curl(this.config.nodeHomePageTemplateUrl).then(data => {
-            this.app.messenger.sendToApp('update-node-template', data.data.toString())
+
+        const {ctx, app, config} = this
+
+        await ctx.curl(config.nodeHomePageTemplateUrl).then(data => {
+            app.messenger.sendToApp('update-node-template', data.data.toString())
         }).catch(() => {
             console.error('获取节点模板文件失败.')
         })
