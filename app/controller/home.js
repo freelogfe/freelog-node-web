@@ -39,6 +39,22 @@ module.exports = class HomeController extends Controller {
 
         ctx.body = ctx.helper.nodeTemplateHelper.convertNodePageBuild(config.nodeTemplate, pbResource.data.toString(), nodeInfo, userId, pageBuild.presentableId)
     }
+
+    /**
+     * 触发更新节点模板事件
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async triggerUpdateNodeTemplateEvent(ctx) {
+
+        const {config, app} = ctx
+        
+        await ctx.curl(config.nodeHomePageTemplateUrl).then(data => {
+            app.messenger.sendToApp('update-node-template', data.data.toString())
+        }).then(() => {
+            ctx.success('模板更新成功')
+        }).catch(ctx.error)
+    }
 }
 
 

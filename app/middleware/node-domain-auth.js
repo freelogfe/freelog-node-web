@@ -14,6 +14,9 @@ module.exports = (option, app) => {
 
     return async function (ctx, next) {
         try {
+            if (ctx.request.url.toLowerCase().startsWith('/home/triggerUpdateNodeTemplateEvent'.toLowerCase())) {
+                return await next()
+            }
 
             let nodeDomain = ctx.host.replace(/(\.freelog\.com|\.testfreelog\.com)/i, '')
 
