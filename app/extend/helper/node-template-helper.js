@@ -39,9 +39,9 @@ module.exports = {
      */
     convertErrorNodePageBuild(template, nodeInfo, userId, authErrorInfo) {
 
-        let $ = cheerio.load(template)
+        const $ = cheerio.load(template)
 
-        let authInfo = {
+        const authInfo = {
             __auth_error_info__: authErrorInfo,
             __auth_user_id__: userId,
             __auth_node_id__: nodeInfo.nodeId
