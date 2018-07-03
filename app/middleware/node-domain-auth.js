@@ -18,15 +18,13 @@ module.exports = (option, app) => {
                 return await next()
             }
 
-            let nodeDomain = ctx.host.replace(/(\.freelog\.com|\.testfreelog\.com)/i, '')
-
+            const nodeDomain = ctx.host.replace(/(\.freelog\.com|\.testfreelog\.com)/i, '')
             if (!commonRegex.nodeDomain.test(nodeDomain)) {
                 ctx.body = `<h1>sorry,${nodeDomain} is not freelog website</h1>`
                 return
             }
 
-            let nodeInfo = await ctx.dal.nodeProvider.getNodeInfo({nodeDomain})
-
+            const nodeInfo = await ctx.dal.nodeProvider.getNodeInfo({nodeDomain})
             if (!nodeInfo) {
                 ctx.body = `<h1>sorry,${nodeDomain} is not freelog website</h1>`
                 return
