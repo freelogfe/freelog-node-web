@@ -3,7 +3,7 @@
 module.exports = {
 
     cluster: {
-        listen: {port: 7777}
+        listen: {port: 5777}
     },
 
     knex: {
