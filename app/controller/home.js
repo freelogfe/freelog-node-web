@@ -24,6 +24,7 @@ module.exports = class HomeController extends Controller {
         var widgetToken = ''
         const pbResource = await ctx.curlIntranetApi(`${config.gatewayUrl}/api/v1/auths/presentable/${pageBuild.presentableId}.data?nodeId=${nodeInfo.nodeId}`, {dataType: 'original'}).then(response => {
             if (response.res.headers['content-type'].indexOf('application/json') > -1) {
+                console.log(response.res.headers)
                 widgetToken = response.res.headers['freelog-sub-resource-auth-token']
                 return JSON.parse(response.data.toString())
             } else {
