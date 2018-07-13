@@ -13,13 +13,13 @@ module.exports = {
      * @param template 模本内容
      * @param pageBuildStr PB文件
      */
-    convertNodePageBuild(template, pageBuildStr, nodeInfo, userId, presentableId) {
+    convertNodePageBuild(template, pageBuildStr, nodeInfo, userId, widgetToken) {
 
         const $ = cheerio.load(template)
 
         $('#js-page-container').append(pageBuildStr)
 
-        $(`[data-widget-src]`).attr('data-widget-presentable-id', presentableId)
+        $(`[data-widget-src]`).attr('data-widget-token', widgetToken)
 
         const authInfo = {
             __auth_user_id__: userId,
