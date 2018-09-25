@@ -1,5 +1,7 @@
 'use strict';
 
+const fs = require('fs')
+
 module.exports = appInfo => {
     const config = {};
 
@@ -56,6 +58,12 @@ module.exports = appInfo => {
         enable: true,
         appid: 2675,
         secret: '477c60068500a2b8e9fa3b5619fdfb58689ea20e',
+    };
+
+    config.jwtAuth = {
+        cookieName: 'nodeInfo',
+        privateKey: fs.readFileSync('config/auth_key/private_key.pem').toString(),
+        publicKey: fs.readFileSync('config/auth_key/public_key.pem').toString()
     };
 
     return config;

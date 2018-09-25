@@ -53,9 +53,7 @@ module.exports = class HomeController extends Controller {
 
         await ctx.curl(config.nodeHomePageTemplateUrl).then(data => {
             app.messenger.sendToApp('update-node-template', data.data.toString())
-        }).then(() => {
-            ctx.success('模板更新成功')
-        }).catch(ctx.error)
+        }).then(() => ctx.success('模板更新成功')).catch(ctx.error)
     }
 }
 

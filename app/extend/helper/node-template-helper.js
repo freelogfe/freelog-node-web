@@ -23,7 +23,8 @@ module.exports = {
 
         const authInfo = {
             __auth_user_id__: userId,
-            __auth_node_id__: nodeInfo.nodeId
+            __auth_node_id__: nodeInfo.nodeId,
+            __auth_node_name__: nodeInfo.nodeName
         }
 
         $('head').prepend(`<title>${nodeInfo.nodeName}-飞致节点</title>`)

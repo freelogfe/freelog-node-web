@@ -36,6 +36,8 @@ module.exports = (option, app) => {
 
             ctx.request.nodeInfo = nodeInfo
 
+            ctx.generateNodeJwtInfo(nodeInfo)
+
             await next()
         } catch (e) {
             ctx.body = `<h2>出错啦~,error:${e.message}</h2>`
