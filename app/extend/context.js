@@ -24,6 +24,6 @@ module.exports = {
         })
 
         const jwtStr = new jwtHelper(publicKey, privateKey).createJwt(payLoad, 1296000)
-        cookies.set(cookieName, jwtStr, {overwrite: true})
+        cookies.set(cookieName, jwtStr, {overwrite: true, signed: false})
     }
 }
