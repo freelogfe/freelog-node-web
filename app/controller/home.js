@@ -31,7 +31,10 @@ module.exports = class HomeController extends Controller {
                 return response
             }
         })
-
+        console.log(subResourceIds)
+        if (subResourceIds) {
+            console.log(subResourceIds.split(','))
+        }
         if (!pbResource.res && !pbResource.status) {
             if (pbResource.ret === 2 && (pbResource.errcode === 30 || pbResource.errcode === 28)) {
                 ctx.redirect(`https://www.freelog.com/pages/user/login.html?redirect=${encodeURIComponent(`https://${ctx.host}/`)}`)
