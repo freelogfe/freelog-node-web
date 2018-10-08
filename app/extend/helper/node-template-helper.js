@@ -13,18 +13,19 @@ module.exports = {
      * @param template 模本内容
      * @param pageBuildStr PB文件
      */
-    convertNodePageBuild(template, pageBuildStr, nodeInfo, userId, widgetToken) {
+    convertNodePageBuild(template, pageBuildStr, nodeInfo, userId, widgetToken, subResourceIds) {
 
         const $ = cheerio.load(template)
 
         $('#js-page-container').append(pageBuildStr)
-
         $(`[data-widget-src]`).attr('data-widget-token', widgetToken)
 
         const authInfo = {
             __auth_user_id__: userId,
             __auth_node_id__: nodeInfo.nodeId,
-            __auth_node_name__: nodeInfo.nodeName
+            __auth_node_name__: nodeInfo.nodeName,
+            __page_build_sub_resource_ids: subResourceIds ? subResourceIds.split(',') : [],
+            __page_build_sub_resource_auth_token: widgetToken
         }
 
         $('head').prepend(`<title>${nodeInfo.nodeName}-飞致节点</title>`)
