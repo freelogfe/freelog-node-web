@@ -23,6 +23,7 @@ module.exports = class HomeController extends Controller {
 
         var widgetToken = '', subResourceIds = ''
         const pbResource = await ctx.curlIntranetApi(`${config.gatewayUrl}/api/v1/auths/presentable/${pageBuild.presentableId}.data?nodeId=${nodeInfo.nodeId}`, {dataType: 'original'}).then(response => {
+            console.log(response.res.headers)
             widgetToken = response.res.headers['freelog-sub-resource-auth-token']
             subResourceIds = response.res.headers['freelog-sub-resourceIds']
             if (response.res.headers['content-type'].indexOf('application/json') > -1) {
@@ -31,10 +32,7 @@ module.exports = class HomeController extends Controller {
                 return response
             }
         })
-        console.log(subResourceIds)
-        if (subResourceIds) {
-            console.log(subResourceIds.split(','))
-        }
+
         if (!pbResource.res && !pbResource.status) {
             if (pbResource.ret === 2 && (pbResource.errcode === 30 || pbResource.errcode === 28)) {
                 ctx.redirect(`https://www.freelog.com/pages/user/login.html?redirect=${encodeURIComponent(`https://${ctx.host}/`)}`)
