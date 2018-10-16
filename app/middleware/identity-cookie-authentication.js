@@ -7,15 +7,7 @@ module.exports = (options, app) => async (ctx, next) => {
 
     let jwtStr = ctx.cookies.get('authInfo')
     if (!jwtStr) {
-        let cookie = ctx.headers.cookie || ''
-        console.log(cookie)
-        cookie.split(';').forEach(item => {
-            let [key, value] = item.split('=')
-            console.log(item, key, value)
-            if (key === 'authInfo') {
-                jwtStr = value
-            }
-        })
+        jwtStr = getCookie(ctx.headers.cookie || '', 'authInfo')
     }
     if (!jwtStr) {
         let auth = ctx.headers.authorization || ''
@@ -30,6 +22,7 @@ module.exports = (options, app) => async (ctx, next) => {
     jwtClass.publicKey = app.config.jwtAuth.publicKey
 
     let verifyResult = jwtClass.verifyJwt(jwtStr)
+    console.log(verifyResult)
     if (!verifyResult.isVerify) {
         return await next()
     }
@@ -47,4 +40,13 @@ module.exports = (options, app) => async (ctx, next) => {
     ctx.headers['auth-token'] = new Buffer(JSON.stringify(userToken)).toString("base64")
 
     await next()
+}
+
+function getCookie(cookie, name) {
+    let arr;
+    let reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+    if (arr = cookie.match(reg))
+        return unescape(arr[2]);
+    else
+        return null
 }
