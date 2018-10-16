@@ -7,15 +7,16 @@ module.exports = (options, app) => async (ctx, next) => {
 
     let jwtStr = ctx.cookies.get('authInfo')
     if (!jwtStr) {
-        let cookie = ctx.headers.cookie || {}
+        let cookie = ctx.headers.cookie || ''
+        console.log(cookie)
         cookie.split(';').forEach(item => {
             let [key, value] = item.split('=')
+            console.log(item, key, value)
             if (key === 'authInfo') {
                 jwtStr = value
             }
         })
     }
-    console.log(jwtStr)
     if (!jwtStr) {
         let auth = ctx.headers.authorization || ''
         auth.startsWith('Bearer ') && (jwtStr = auth.replace('Bearer ', ''))
