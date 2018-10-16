@@ -6,7 +6,7 @@ const jwtClass = new JwtHelper()
 module.exports = (options, app) => async (ctx, next) => {
 
     let jwtStr = ctx.cookies.get('authInfo')
-    console.log(jwtStr, ctx.host, ctx.cookies)
+    console.log(ctx.req, ctx.header)
     if (!jwtStr) {
         let auth = ctx.headers.authorization || ''
         auth.startsWith('Bearer ') && (jwtStr = auth.replace('Bearer ', ''))
