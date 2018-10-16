@@ -41,6 +41,7 @@ module.exports = (option, app) => {
             await next()
         } catch (e) {
             ctx.body = `<h2>出错啦~,error:${e.message}</h2>`
+            console.log(e)
             return
         }
     }

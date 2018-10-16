@@ -14,14 +14,14 @@ module.exports = {
         const currTime = Math.round(new Date().getTime() / 1000)
         const {publicKey, privateKey, cookieName} = config.jwtAuth
 
-        const payLoad = Object.assign({}, nodeInfo, {
+        const payLoad = Object.assign({}, {
             iss: `https://${nodeInfo.nodeDomain}.freelog.com`,
             sub: nodeInfo.nodeId.toString(),
             aud: "freelog-website",
             exp: currTime + 1296000,
             iat: currTime,
             jti: uuid.v4().replace(/-/g, ''),
-        })
+        }, nodeInfo)
 
         const jwtStr = new jwtHelper(publicKey, privateKey).createJwt(payLoad, 1296000)
         cookies.set(cookieName, jwtStr, {overwrite: true, signed: false})
