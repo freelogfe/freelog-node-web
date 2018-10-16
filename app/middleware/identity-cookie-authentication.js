@@ -1,6 +1,6 @@
 'use strict'
 
-const JwtHelper = require('../extend/helper/jwt_helper')
+const JwtHelper = require('egg-freelog-base/app/extend/helper/jwt_helper')
 const jwtClass = new JwtHelper()
 
 module.exports = (options, app) => async (ctx, next) => {
