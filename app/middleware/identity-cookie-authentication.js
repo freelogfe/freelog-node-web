@@ -6,7 +6,7 @@ const jwtClass = new JwtHelper()
 module.exports = (options, app) => async (ctx, next) => {
 
     let jwtStr = ctx.cookies.get('authInfo')
-    console.log(jwtStr)
+    console.log(jwtStr, ctx.host, ctx.cookies)
     if (!jwtStr) {
         let auth = ctx.headers.authorization || ''
         auth.startsWith('Bearer ') && (jwtStr = auth.replace('Bearer ', ''))
@@ -20,7 +20,6 @@ module.exports = (options, app) => async (ctx, next) => {
     jwtClass.publicKey = app.config.jwtAuth.publicKey
 
     let verifyResult = jwtClass.verifyJwt(jwtStr)
-    console.log(verifyResult, jwtClass.publicKey)
     if (!verifyResult.isVerify) {
         return await next()
     }
