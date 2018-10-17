@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = async (app) => {
+module.exports = (app) => {
 
     app.beforeStart(async () => {
         await app.runSchedule('update-node-template');
