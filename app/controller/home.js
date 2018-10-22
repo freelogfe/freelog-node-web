@@ -4,6 +4,11 @@ const Controller = require('egg').Controller;
 
 module.exports = class HomeController extends Controller {
 
+    constructor({app}) {
+        super(...arguments)
+        this.nodePageBuildProvider = app.dal.nodePageBuildProvider
+    }
+
     /**
      * 节点主页渲染
      * @param ctx
@@ -11,10 +16,10 @@ module.exports = class HomeController extends Controller {
      */
     async nodeHomeIndex(ctx) {
 
-        const {config} = this
+        const {config, nodePageBuildProvider} = this
         const userId = ctx.request.userId || 0
         const nodeInfo = ctx.request.nodeInfo
-        const pageBuild = await ctx.dal.nodePageBuildProvider.getNodePageBuild({nodeId: nodeInfo.nodeId, status: 1})
+        const pageBuild = await nodePageBuildProvider.getNodePageBuild({nodeId: nodeInfo.nodeId, status: 1})
 
         if (!pageBuild) {
             ctx.body = '<h1>节点还未初始化</h1>'
