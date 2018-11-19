@@ -1,24 +1,23 @@
 'use strict'
 
-module.exports = appInfo => {
-    return {
-        /**
-         * DB-mysql相关配置
-         */
-        knex: {
-            node: {
-                connection: {
-                    host: 'rm-wz9wj9435a0428942.mysql.rds.aliyuncs.com',
-                    user: 'freelog',
-                    password: 'Ff@233109',
-                    database: 'fr_node'
-                },
-                debug: false
-            }
-        },
+module.exports = {
 
-        gatewayUrl: "http://172.18.215.224:8895",
+    /**
+     * DB-mysql相关配置
+     */
+    knex: {
+        node: {
+            connection: {
+                host: '172.18.215.231',
+                user: 'root',
+                password: 'Ff@233109',
+                database: 'fr_node'
+            },
+            debug: false
+        }
+    },
 
-        nodeHomePageTemplateUrl: "http://frcdn.oss-cn-shenzhen.aliyuncs.com/pages/pagebuild.html"
-    }
+    gatewayUrl: "http://172.18.215.224:8895",
+
+    nodeHomePageTemplateUrl: "http://frcdn.oss-cn-shenzhen.aliyuncs.com/pages/pagebuild.html"
 }

@@ -9,8 +9,9 @@ module.exports = {
     knex: {
         node: {
             connection: {
-                host: 'rm-wz93t7g809kthrub7.mysql.rds.aliyuncs.com',
-                user: 'freelog_test',
+                host: '172.18.215.231',
+                user: 'root',
+                port: 3307,
                 password: 'Ff@233109',
                 database: 'fr_node'
             },
