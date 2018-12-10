@@ -23,8 +23,7 @@ module.exports = (option, app) => {
                 ctx.body = `<h1>sorry,${nodeDomain} is not freelog website</h1>`
                 return
             }
-
-            const nodeInfo = await ctx.dal.nodeProvider.getNodeInfo({nodeDomain})
+            const nodeInfo = await ctx.curlIntranetApi(`${ctx.webApi.nodeInfo}/detail?nodeDomain=${nodeDomain}`)
             if (!nodeInfo) {
                 ctx.body = `<h1>sorry,${nodeDomain} is not freelog website</h1>`
                 return

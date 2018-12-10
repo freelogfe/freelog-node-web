@@ -16,29 +16,6 @@ module.exports = appInfo => {
     config.middleware = ['nodeDomainAuth', 'identityCookieAuthentication'];
 
     /**
-     * DB-mysql相关配置
-     */
-    config.knex = {
-        node: {
-            client: 'mysql',
-            connection: {
-                host: '192.168.0.99',
-                user: 'root',
-                password: 'yuliang@@',
-                database: 'fr_node',
-                charset: 'utf8',
-                timezone: '+08:00',
-                bigNumberStrings: true,
-                supportBigNumbers: true,
-                connectTimeout: 1500
-            },
-            pool: {max: 3, min: 2},
-            acquireConnectionTimeout: 800,
-            debug: false
-        },
-    }
-
-    /**
      * API网关地址
      */
     config.gatewayUrl = "http://api.freelog.com"

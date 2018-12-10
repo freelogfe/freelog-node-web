@@ -6,7 +6,6 @@ module.exports = class HomeController extends Controller {
 
     constructor({app}) {
         super(...arguments)
-        this.nodePageBuildProvider = app.dal.nodePageBuildProvider
     }
 
     /**
@@ -16,18 +15,18 @@ module.exports = class HomeController extends Controller {
      */
     async nodeHomeIndex(ctx) {
 
-        const {config, nodePageBuildProvider} = this
+        const {config} = this
         const userId = ctx.request.userId || 0
         const nodeInfo = ctx.request.nodeInfo
-        const pageBuild = await nodePageBuildProvider.getNodePageBuild({nodeId: nodeInfo.nodeId, status: 1})
+        const {nodeId, pageBuildId} = nodeInfo
 
-        if (!pageBuild) {
+        if (!pageBuildId) {
             ctx.body = '<h1>节点还未初始化</h1>'
             return
         }
 
         var widgetToken = '', subResourceIds = ''
-        const pbResource = await ctx.curlIntranetApi(`${config.gatewayUrl}/api/v1/auths/presentable/${pageBuild.presentableId}.data?nodeId=${nodeInfo.nodeId}`, {dataType: 'original'}).then(response => {
+        const pbResource = await ctx.curlIntranetApi(`${config.gatewayUrl}/api/v1/auths/presentable/${pageBuildId}.data?nodeId=${nodeId}`, {dataType: 'original'}).then(response => {
             widgetToken = response.res.headers['freelog-sub-resource-auth-token']
             subResourceIds = response.res.headers['freelog-sub-resourceids'] || response.res.headers['freelog-sub-resourceIds']
             if (response.res.headers['content-type'].indexOf('application/json') > -1) {
