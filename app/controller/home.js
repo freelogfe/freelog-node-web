@@ -1,6 +1,7 @@
 'use strict';
 
 const Controller = require('egg').Controller;
+const cryptoHelper = require('egg-freelog-base/app/extend/helper/crypto_helper')
 
 module.exports = class HomeController extends Controller {
 
@@ -26,7 +27,11 @@ module.exports = class HomeController extends Controller {
         }
 
         var widgetToken = '', subResourceIds = ''
-        const pbResource = await ctx.curlIntranetApi(`${config.gatewayUrl}/api/v1/auths/presentable/${pageBuildId}.data?nodeId=${nodeId}`, {dataType: 'original'}).then(response => {
+
+        const pbResource = await ctx.curlFromClient(`${config.gatewayUrl}/api/v1/auths/presentable/${pageBuildId}.data?nodeId=${nodeId}`, {
+            dataType: 'original',
+            headers: {authentication: cryptoHelper.base64Encode(JSON.stringify(ctx.request.identityInfo))}
+        }).then(response => {
             widgetToken = response.res.headers['freelog-sub-resource-auth-token']
             subResourceIds = response.res.headers['freelog-sub-resourceids'] || response.res.headers['freelog-sub-resourceIds']
             if (response.res.headers['content-type'].indexOf('application/json') > -1) {
@@ -35,6 +40,16 @@ module.exports = class HomeController extends Controller {
                 return response
             }
         })
+        
+        // const pbResource = await ctx.curlIntranetApi(`${config.gatewayUrl}/api/v1/auths/presentable/${pageBuildId}.data?nodeId=${nodeId}`, {dataType: 'original'}).then(response => {
+        //     widgetToken = response.res.headers['freelog-sub-resource-auth-token']
+        //     subResourceIds = response.res.headers['freelog-sub-resourceids'] || response.res.headers['freelog-sub-resourceIds']
+        //     if (response.res.headers['content-type'].indexOf('application/json') > -1) {
+        //         return JSON.parse(response.data.toString())
+        //     } else {
+        //         return response
+        //     }
+        // })
 
         if (!pbResource.res && !pbResource.status) {
             if (pbResource.ret === 2 && (pbResource.errcode === 30 || pbResource.errcode === 28)) {

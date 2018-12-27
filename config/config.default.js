@@ -43,5 +43,11 @@ module.exports = appInfo => {
         publicKey: fs.readFileSync('config/auth_key/public_key.pem').toString()
     };
 
+    config.clientCredentialInfo = {
+        clientId: 1004,
+        publicKey: 'c8724fd977542b155abac77664093770',
+        privateKey: 'e8739ff716660a4c942724d306216612'
+    };
+
     return config;
 };
