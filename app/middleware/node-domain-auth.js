@@ -13,7 +13,7 @@ const commonRegex = require('egg-freelog-base/app/extend/helper/common_regex')
 module.exports = (option, app) => {
 
     return async function (ctx, next) {
-        try {
+       // try {
             if (ctx.request.url.toLowerCase().startsWith('/home/triggerUpdateNodeTemplateEvent'.toLowerCase())) {
                 return await next()
             }
@@ -38,10 +38,10 @@ module.exports = (option, app) => {
             ctx.generateNodeJwtInfo(nodeInfo)
 
             await next()
-        } catch (e) {
-            ctx.body = `<h2>出错啦~,error:${e.message}</h2>`
-            console.log(e)
-            return
-        }
+        // } catch (e) {
+        //     ctx.body = `<h2>出错啦~,error:${e.message}</h2>`
+        //     console.log(e)
+        //     return
+        // }
     }
 }

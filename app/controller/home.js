@@ -39,7 +39,7 @@ module.exports = class HomeController extends Controller {
             } else {
                 return response
             }
-        })
+        }).catch(console.error)
 
         if (!pbResource.res && !pbResource.status) {
             if (pbResource.ret === 2 && (pbResource.errcode === 30 || pbResource.errcode === 28)) {
