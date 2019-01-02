@@ -16,11 +16,6 @@ module.exports = appInfo => {
     config.middleware = ['identityCookieAuthentication', 'nodeDomainAuth'];
 
     /**
-     * API网关地址
-     */
-    config.gatewayUrl = "http://api.freelog.com"
-
-    /**
      * 节点主页模板(来源于OSS)
      * @type {null}
      */
