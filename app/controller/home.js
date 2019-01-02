@@ -25,9 +25,9 @@ module.exports = class HomeController extends Controller {
             ctx.body = '<h1>节点还未初始化</h1>'
             return
         }
-
+        
         var widgetToken = '', subResourceIds = ''
-        const pbResource = await ctx.curlIntranetApi(`${config.gatewayUrl}/v1/auths/presentable/${pageBuildId}.data?nodeId=${nodeId}`, {
+        const pbResource = await ctx.curlIntranetApi(`${ctx.webApi.authInfo}/presentable/${pageBuildId}.data?nodeId=${nodeId}`, {
             dataType: 'original',
         }).then(response => {
             widgetToken = response.res.headers['freelog-sub-resource-auth-token']
