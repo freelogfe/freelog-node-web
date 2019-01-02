@@ -27,10 +27,9 @@ module.exports = class HomeController extends Controller {
         }
 
         var widgetToken = '', subResourceIds = ''
-
-
-        const pbResource = await ctx.curlIntranetApi(`${config.gatewayUrl}/api/v1/auths/presentable/${pageBuildId}.data?nodeId=${nodeId}`, {
-            dataType: 'original'
+        
+        const pbResource = await ctx.curlIntranetApi(`${config.gatewayUrl}/v1/auths/presentable/${pageBuildId}.data?nodeId=${nodeId}`, {
+            dataType: 'original',
         }).then(response => {
             widgetToken = response.res.headers['freelog-sub-resource-auth-token']
             subResourceIds = response.res.headers['freelog-sub-resourceids'] || response.res.headers['freelog-sub-resourceIds']
