@@ -13,7 +13,7 @@ module.exports = appInfo => {
     config.keys = 'd5dd9d6d5d9aa0f36c00b779fa7e3cf4,6a40eb7a1d7d01d508af102a151ab56f' //cookie加密与解密key
 
     // add your config here
-    config.middleware = ['nodeDomainAuth', 'identityCookieAuthentication'];
+    config.middleware = ['identityCookieAuthentication', 'nodeDomainAuth'];
 
     /**
      * API网关地址

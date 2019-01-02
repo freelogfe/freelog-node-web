@@ -13,16 +13,18 @@ const commonRegex = require('egg-freelog-base/app/extend/helper/common_regex')
 module.exports = (option, app) => {
 
     return async function (ctx, next) {
-       // try {
+
+
+        try {
             if (ctx.request.url.toLowerCase().startsWith('/home/triggerUpdateNodeTemplateEvent'.toLowerCase())) {
                 return await next()
             }
-
             const nodeDomain = ctx.host.replace(/(\.freelog\.com|\.testfreelog\.com)/i, '')
             if (!commonRegex.nodeDomain.test(nodeDomain)) {
                 ctx.body = `<h1>sorry,${nodeDomain} is not freelog website</h1>`
                 return
             }
+            ctx.request.identityInfo = ctx.request.identityInfo || {}
             const nodeInfo = await ctx.curlIntranetApi(`${ctx.webApi.nodeInfo}/detail?nodeDomain=${nodeDomain}`)
             if (!nodeInfo) {
                 ctx.body = `<h1>sorry,${nodeDomain} is not freelog website</h1>`
@@ -38,10 +40,10 @@ module.exports = (option, app) => {
             ctx.generateNodeJwtInfo(nodeInfo)
 
             await next()
-        // } catch (e) {
-        //     ctx.body = `<h2>出错啦~,error:${e.message}</h2>`
-        //     console.log(e)
-        //     return
-        // }
+        } catch (e) {
+            ctx.body = `<h2>出错啦~,error:${e.message}</h2>`
+            console.log(e)
+            return
+        }
     }
 }
