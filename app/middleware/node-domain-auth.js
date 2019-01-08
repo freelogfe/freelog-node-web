@@ -34,6 +34,10 @@ module.exports = (option, app) => {
                 ctx.body = `<h1>sorry,${nodeDomain} is not freelog website</h1>`
                 return
             }
+            if (!nodeInfo.pageBuildId) {
+                ctx.body = '<h1>节点还未初始化</h1>'
+                return
+            }
 
             ctx.request.nodeInfo = nodeInfo
 

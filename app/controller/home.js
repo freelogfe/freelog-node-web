@@ -1,13 +1,8 @@
 'use strict';
 
 const Controller = require('egg').Controller;
-const cryptoHelper = require('egg-freelog-base/app/extend/helper/crypto_helper')
 
 module.exports = class HomeController extends Controller {
-
-    constructor({app}) {
-        super(...arguments)
-    }
 
     /**
      * 节点主页渲染
@@ -16,38 +11,48 @@ module.exports = class HomeController extends Controller {
      */
     async nodeHomeIndex(ctx) {
 
-        const {config} = this
-        const userId = ctx.request.userId || 0
         const nodeInfo = ctx.request.nodeInfo
-        const {nodeId, pageBuildId} = nodeInfo
+        const userId = ctx.request.userId || 0
 
-        if (!pageBuildId) {
-            ctx.body = '<h1>节点还未初始化</h1>'
-            return
-        }
-        
-        var widgetToken = '', subResourceIds = ''
-        const pbResource = await ctx.curlIntranetApi(`${ctx.webApi.authInfo}/presentable/${pageBuildId}.data?nodeId=${nodeId}`, {
-            dataType: 'original',
-        }).then(response => {
-            widgetToken = response.res.headers['freelog-sub-resource-auth-token']
-            subResourceIds = response.res.headers['freelog-sub-resourceids'] || response.res.headers['freelog-sub-resourceIds']
-            if (response.res.headers['content-type'].indexOf('application/json') > -1) {
-                return JSON.parse(response.data.toString())
-            } else {
-                return response
+        const presentableAuthUrl = `${ctx.webApi.authInfo}/presentable/${nodeInfo.pageBuildId}.data?nodeId=${nodeInfo.nodeId}`
+        await ctx.curlIntranetApi(presentableAuthUrl, {dataType: 'original'}).then(response => {
+
+            const [contentTypeKey, authTokenKey, subResourceIdsKey] = this._findKeyIgnoreUpperLower(response.res.headers, "content-type", "freelog-sub-resource-auth-token", "freelog-sub-resourceIds")
+            if (response.res.headers[contentTypeKey].includes('application/json')) {
+                this._pageBuildAuthFailedHandle(JSON.parse(response.data.toString()), nodeInfo, userId)
+                return
             }
+            
+            const widgetToken = response.res.headers[authTokenKey]
+            const subResourceIds = response.res.headers[subResourceIdsKey]
+            ctx.body = ctx.helper.nodeTemplateHelper.convertNodePageBuild(ctx.config.nodeTemplate, response.data.toString(), nodeInfo, userId, widgetToken, subResourceIds)
         })
+    }
 
-        if (!pbResource.res && !pbResource.status) {
-            if (pbResource.ret === 2 && (pbResource.errcode === 30 || pbResource.errcode === 28)) {
-                ctx.redirect(`https://www.freelog.com/pages/user/login.html?redirect=${encodeURIComponent(`https://${ctx.host}/`)}`)
-            }
-            ctx.body = ctx.helper.nodeTemplateHelper.convertErrorNodePageBuild(config.nodeTemplate, nodeInfo, userId, pbResource)
-            return
+    /**
+     * pb资源授权错误处理
+     * @param responseData
+     * @param nodeInfo
+     * @param userId
+     * @private
+     */
+    _pageBuildAuthFailedHandle(responseData, nodeInfo, userId) {
+
+        const {ctx, config} = this
+        if (responseData.errcode === 30 || responseData.errcode === 28) {
+            ctx.redirect(`https://www.freelog.com/pages/user/login.html?redirect=${encodeURIComponent(`https://${ctx.host}/`)}`)
         }
+        ctx.body = ctx.helper.nodeTemplateHelper.convertErrorNodePageBuild(config.nodeTemplate, nodeInfo, userId, responseData)
+    }
 
-        ctx.body = ctx.helper.nodeTemplateHelper.convertNodePageBuild(config.nodeTemplate, pbResource.data.toString(), nodeInfo, userId, widgetToken, subResourceIds)
+    /**
+     * 忽略大小写查找对象的key,返回第一个
+     * @private
+     */
+    _findKeyIgnoreUpperLower(object, ...args) {
+        const keys = Object.keys(object)
+        const result = args.map(key => keys.find(x => x.toLowerCase() === key.toLowerCase()))
+        return args.length === 1 ? result[0] : result
     }
 
     /**
@@ -61,7 +66,7 @@ module.exports = class HomeController extends Controller {
 
         await ctx.curl(config.nodeHomePageTemplateUrl).then(data => {
             app.messenger.sendToApp('update-node-template', data.data.toString())
-        }).then(() => ctx.success('模板更新成功')).catch(ctx.error)
+        }).then(() => ctx.success('模板更新成功'))
     }
 }
 
