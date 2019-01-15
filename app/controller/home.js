@@ -15,6 +15,8 @@ module.exports = class HomeController extends Controller {
         const userId = ctx.request.userId || 0
 
         const presentableAuthUrl = `${ctx.webApi.authInfo}/presentable/${nodeInfo.pageBuildId}.data?nodeId=${nodeInfo.nodeId}`
+
+        //后期考虑直接把pb文件内容缓存起来,授权时只要授权结果,不拿源文件或者在授权服务里做缓存处理
         await ctx.curlIntranetApi(presentableAuthUrl, {dataType: 'original'}).then(response => {
             const [contentType, widgetToken, subResourceIds] = this._findValueByKeyIgnoreUpperLower(response.res.headers, "content-type", "freelog-sub-resource-auth-token", "freelog-sub-resourceIds")
             if (contentType.includes('application/json')) {
