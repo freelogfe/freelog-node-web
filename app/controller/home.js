@@ -38,7 +38,7 @@ module.exports = class HomeController extends Controller {
 
         const {ctx, config} = this
         if ([28, 30].includes(responseData.errcode)) {
-            ctx.redirect(`https://www.freelog.com/pages/user/login.html?redirect=${encodeURIComponent(`https://${ctx.host}/`)}`)
+            ctx.redirect(`http://www.freelog.com/pages/user/login.html?redirect=${encodeURIComponent(`https://${ctx.host}/`)}`)
         }
         ctx.body = ctx.helper.nodeTemplateHelper.convertErrorNodePageBuild(config.nodeTemplate, nodeInfo, userId, responseData)
     }
