@@ -3,6 +3,7 @@
 const fs = require('fs')
 
 module.exports = appInfo => {
+
     const config = {};
 
     config.cluster = {

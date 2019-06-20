@@ -10,7 +10,7 @@ module.exports = class UpdateNodeTemplate extends Subscription {
 
     static get schedule() {
         return {
-            cron: '* */3 * * * * *', // 15分钟间隔
+            cron: '* */3 * * * *', // 15分钟间隔
             type: 'worker',
             immediate: false,
         };
