@@ -11,19 +11,18 @@ module.exports = class HomeController extends Controller {
      */
     async nodeHomeIndex(ctx) {
 
-        const nodeInfo = ctx.request.nodeInfo
-        const userId = ctx.request.userId || 0
+        const {userId = 0, nodeInfo} = ctx.request
 
-        const presentableAuthUrl = `${ctx.webApi.authInfo}/presentable/${nodeInfo.pageBuildId}.data?nodeId=${nodeInfo.nodeId}`
+        const presentableAuthUrl = `${ctx.webApi.authInfo}/presentables/${nodeInfo.pageBuildId}`
 
         //后期考虑直接把pb文件内容缓存起来,授权时只要授权结果,不拿源文件或者在授权服务里做缓存处理
         await ctx.curlIntranetApi(presentableAuthUrl, {dataType: 'original'}).then(response => {
-            const [contentType, widgetToken, subResourceIds] = this._findValueByKeyIgnoreUpperLower(response.res.headers, "content-type", "freelog-sub-resource-auth-token", "freelog-sub-resourceIds")
+            const [contentType, subReleases] = this._findValueByKeyIgnoreUpperLower(response.res.headers, "content-type", "freelog-sub-releases")
             if (contentType.includes('application/json')) {
                 this._pageBuildAuthFailedHandle(JSON.parse(response.data.toString()), nodeInfo, userId)
                 return
             }
-            ctx.body = ctx.helper.nodeTemplateHelper.convertNodePageBuild(ctx.config.nodeTemplate, response.data.toString(), nodeInfo, userId, widgetToken, subResourceIds)
+            ctx.body = ctx.helper.nodeTemplateHelper.convertNodePageBuild(ctx.config.nodeTemplate, response.data.toString(), nodeInfo, userId, subReleases)
         })
     }
 
@@ -37,7 +36,7 @@ module.exports = class HomeController extends Controller {
     _pageBuildAuthFailedHandle(responseData, nodeInfo, userId) {
 
         const {ctx, config} = this
-        if ([28, 30].includes(responseData.errcode)) {
+        if ([28, 30].includes(responseData.errcode) || responseData.errcode === 3 && responseData.data.authCode === 505) {
             ctx.redirect(`http://www.freelog.com/pages/user/login.html?redirect=${encodeURIComponent(`https://${ctx.host}/`)}`)
         }
         ctx.body = ctx.helper.nodeTemplateHelper.convertErrorNodePageBuild(config.nodeTemplate, nodeInfo, userId, responseData)
@@ -48,6 +47,7 @@ module.exports = class HomeController extends Controller {
      * @private
      */
     _findValueByKeyIgnoreUpperLower(object, ...args) {
+
         const keys = Object.keys(object)
         const result = args.map(key => {
             const realKey = keys.find(x => x.toLowerCase() === key.toLowerCase())

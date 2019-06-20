@@ -13,22 +13,26 @@ module.exports = {
      * @param template 模本内容
      * @param pageBuildStr PB文件
      */
-    convertNodePageBuild(template, pageBuildStr, nodeInfo, userId, widgetToken, subResourceIds) {
+    convertNodePageBuild(template, pageBuildStr, nodeInfo, userId, subReleases) {
 
         const $ = cheerio.load(template)
+        const {nodeId, nodeName, pageBuildId} = nodeInfo
 
         $('#js-page-container').append(pageBuildStr)
-        $(`[data-widget-src]`).attr('data-widget-token', widgetToken)
+        $(`[data-widget-src]`).attr('data-page-build-id', pageBuildId)
+
 
         const authInfo = {
             __auth_user_id__: userId,
-            __auth_node_id__: nodeInfo.nodeId,
-            __auth_node_name__: nodeInfo.nodeName,
-            __page_build_sub_resource_ids: subResourceIds ? subResourceIds.split(',') : [],
-            __page_build_sub_resource_auth_token: widgetToken
+            __auth_node_id__: nodeId,
+            __auth_node_name__: nodeName,
+            __page_build_sub_releases: subReleases ? subReleases.split(',').map(item => {
+                let [releaseId, version] = item.split('-')
+                return {releaseId, version}
+            }) : []
         }
 
-        $('head').prepend(`<title>${nodeInfo.nodeName}-飞致节点</title>`)
+        $('head').prepend(`<title>${nodeName}-飞致节点</title>`)
         $('head').append(`<script> window.__auth_info__ = ${ JSON.stringify(authInfo) } </script>`)
         $('body').append(`<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1276322399'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s5.cnzz.com/z_stat.php%3Fid%3D1276322399%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>`)
 
@@ -44,13 +48,15 @@ module.exports = {
 
         const $ = cheerio.load(template)
 
+        const {nodeId, nodeName} = nodeInfo
+
         const authInfo = {
             __auth_error_info__: authErrorInfo,
             __auth_user_id__: userId,
-            __auth_node_id__: nodeInfo.nodeId
+            __auth_node_id__: nodeId
         }
 
-        $('head').prepend(`<title>${nodeInfo.nodeName}-飞致节点</title>`)
+        $('head').prepend(`<title>${nodeName}-飞致节点</title>`)
         $('head').append(`<script> window.__auth_info__ = ${ JSON.stringify(authInfo) } </script>`)
 
         return $.html()
