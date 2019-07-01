@@ -21,7 +21,6 @@ module.exports = {
         $('#js-page-container').append(pageBuildStr)
         $(`[data-widget-src]`).attr('data-page-build-id', pageBuildId)
 
-
         const authInfo = {
             __auth_user_id__: userId,
             __auth_node_id__: nodeId,
