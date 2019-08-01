@@ -19,12 +19,13 @@ module.exports = {
         const {nodeId, nodeName, pageBuildId} = nodeInfo
 
         $('#js-page-container').append(pageBuildStr)
-        $(`[data-widget-src]`).attr('data-page-build-id', pageBuildId)
+        //$(`[data-widget-src]`).attr('data-page-build-id', pageBuildId)
 
         const authInfo = {
             __auth_user_id__: userId,
             __auth_node_id__: nodeId,
             __auth_node_name__: nodeName,
+            __page_build_id: pageBuildId,
             __page_build_sub_releases: subReleases ? subReleases.split(',').map(item => {
                 let [releaseId, version] = item.split('-')
                 return {releaseId, version}
