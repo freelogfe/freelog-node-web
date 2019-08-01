@@ -5,6 +5,7 @@
 'use strict'
 
 const cheerio = require('cheerio')
+const cryptoHelper = require('egg-freelog-base/app/extend/helper/crypto_helper')
 
 module.exports = {
 
@@ -21,15 +22,24 @@ module.exports = {
         $('#js-page-container').append(pageBuildStr)
         //$(`[data-widget-src]`).attr('data-page-build-id', pageBuildId)
 
+        let pageBuildSubReleases = []
+        if (subReleases) {
+            try {
+                pageBuildSubReleases = JSON.parse(cryptoHelper.base64Decode(subReleases)).map(item => {
+                    return {releaseId: item.id, releaseName: item.n, version: item.v}
+                })
+            } catch (e) {
+                console.log('subReleases解析错误',subReleases)
+            }
+        }
+
+
         const authInfo = {
             __auth_user_id__: userId,
             __auth_node_id__: nodeId,
             __auth_node_name__: nodeName,
             __page_build_id: pageBuildId,
-            __page_build_sub_releases: subReleases ? subReleases.split(',').map(item => {
-                let [releaseId, version] = item.split('-')
-                return {releaseId, version}
-            }) : []
+            __page_build_sub_releases: pageBuildSubReleases
         }
 
         $('head').prepend(`<title>${nodeName}-飞致节点</title>`)
