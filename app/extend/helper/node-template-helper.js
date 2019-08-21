@@ -6,6 +6,7 @@
 
 const cheerio = require('cheerio')
 const cryptoHelper = require('egg-freelog-base/app/extend/helper/crypto_helper')
+const {validator} = require('egg-freelog-base/app/extend/application')
 
 module.exports = {
 
@@ -14,7 +15,7 @@ module.exports = {
      * @param template 模本内容
      * @param pageBuildStr PB文件
      */
-    convertNodePageBuild(template, pageBuildStr, nodeInfo, userId, subReleases) {
+    async convertNodePageBuild(template, pageBuildStr, nodeInfo, userId, subReleases) {
 
         const $ = cheerio.load(template)
         const {nodeId, nodeName, pageBuildId} = nodeInfo
@@ -23,16 +24,22 @@ module.exports = {
         //$(`[data-widget-src]`).attr('data-page-build-id', pageBuildId)
 
         let pageBuildSubReleases = []
-        if (subReleases) {
+        if (subReleases && validator.isBase64(subReleases)) {
             try {
                 pageBuildSubReleases = JSON.parse(cryptoHelper.base64Decode(subReleases)).map(item => {
                     return {releaseId: item.id, releaseName: item.n, version: item.v}
                 })
+                if (pageBuildSubReleases.length) {
+                    const releaseMap = await this.ctx.curlIntranetApi(`${this.ctx.webApi.releaseInfo}/list?releaseIds=${pageBuildSubReleases.map(x => x.releaseId).toString()}&projection=resourceType`)
+                        .then(list => new Map(list.map(x => [x.releaseId, x.resourceType])))
+                    pageBuildSubReleases.forEach(item => {
+                        item.resourceType = releaseMap.get(item.releaseId)
+                    })
+                }
             } catch (e) {
-                console.log('subReleases解析错误',subReleases)
+                console.log('subReleases解析错误', subReleases)
             }
         }
-
 
         const authInfo = {
             __auth_user_id__: userId,

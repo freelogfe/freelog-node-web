@@ -8,11 +8,11 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
-    "egg": "^2.22.2",
+    "egg": "^2.23.0",
     "egg-alinode": "^2.0.1",
-    "egg-freelog-base": "^1.2.10",
+    "egg-freelog-base": "^1.2.15",
     "egg-scripts": "^2.11.0",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.3"
   },
   "engines": {
     "node": ">=8.0.0"
