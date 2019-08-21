@@ -56,6 +56,10 @@ module.exports = {
         return $.html()
     },
 
+    test(){
+        console.log(this.ctx)
+    },
+
     /**
      * 组合节点的pb HTML内容
      * @param template
