@@ -37,7 +37,7 @@ module.exports = {
                     })
                 }
             } catch (e) {
-                console.log('subReleases解析错误', subReleases)
+                console.log('subReleases解析错误', e, subReleases)
             }
         }
 

@@ -16,14 +16,16 @@ module.exports = class HomeController extends Controller {
         const presentableAuthUrl = `${ctx.webApi.authInfo}/presentables/${nodeInfo.pageBuildId}`
 
         //后期考虑直接把pb文件内容缓存起来,授权时只要授权结果,不拿源文件或者在授权服务里做缓存处理
-        await ctx.curlIntranetApi(presentableAuthUrl, {dataType: 'original'}).then(response => {
+        const body = await ctx.curlIntranetApi(presentableAuthUrl, {dataType: 'original'}).then(response => {
             const [contentType, subReleases] = this._findValueByKeyIgnoreUpperLower(response.res.headers, "content-type", "freelog-sub-releases")
             if (contentType.includes('application/json')) {
                 this._pageBuildAuthFailedHandle(JSON.parse(response.data.toString()), nodeInfo, userId)
                 return
             }
-            ctx.body = ctx.helper.nodeTemplateHelper.convertNodePageBuild(ctx.config.nodeTemplate, response.data.toString(), nodeInfo, userId, subReleases)
+            return ctx.helper.nodeTemplateHelper.convertNodePageBuild(ctx.config.nodeTemplate, response.data.toString(), nodeInfo, userId, subReleases)
         })
+
+        ctx.body = body
     }
 
     /**
