@@ -1,7 +1,5 @@
 'use strict'
 
-const nodeTemplateHelper = require('./helper/node-template-helper')
-
 const cheerio = require('cheerio')
 const cryptoHelper = require('egg-freelog-base/app/extend/helper/crypto_helper')
 const {validator} = require('egg-freelog-base/app/extend/application')
@@ -55,10 +53,6 @@ module.exports = {
         return $.html()
     },
 
-
-    test() {
-        console.log(this.ctx)
-    },
 
     /**
      * 组合节点的pb HTML内容
