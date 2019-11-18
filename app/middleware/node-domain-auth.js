@@ -5,15 +5,13 @@ const commonRegex = require('egg-freelog-base/app/extend/helper/common_regex')
 /**
  * node 主域名检查中间件
  */
-module.exports = (option, app) => async
-
-function (ctx, next) {
+module.exports = (option, app) => async function (ctx, next) {
 
     try {
 
         if (ctx.request.url.toLowerCase().startsWith('/home/triggerUpdateNodeTemplateEvent'.toLowerCase())) {
             return await
-            next()
+                next()
         }
 
         var isTestNode = false
@@ -29,8 +27,7 @@ function (ctx, next) {
             return
         }
         ctx.request.identityInfo = ctx.request.identityInfo || {}
-        const nodeInfo = await
-        ctx.curlIntranetApi(`${ctx.webApi.nodeInfo}/detail?nodeDomain=${nodeDomain}`)
+        const nodeInfo = await ctx.curlIntranetApi(`${ctx.webApi.nodeInfo}/detail?nodeDomain=${nodeDomain}`)
         if (!nodeInfo) {
             ctx.body = `<h1>sorry,${nodeDomain} is not freelog website</h1>`
             return
@@ -41,7 +38,7 @@ function (ctx, next) {
         }
         if (isTestNode) {
             const testNodeRuleInfo = await
-            ctx.curlIntranetApi(`${ctx.webApi.testNode}/${nodeInfo.nodeId}`)
+                ctx.curlIntranetApi(`${ctx.webApi.testNode}/${nodeInfo.nodeId}`)
             nodeInfo.pageBuildId = testNodeRuleInfo ? testNodeRuleInfo.themeId : ""
         }
         if (!nodeInfo.pageBuildId) {
@@ -54,12 +51,8 @@ function (ctx, next) {
 
         ctx.generateNodeJwtInfo(nodeInfo)
 
-        await
-        next()
-
+        await next()
     } catch (e) {
-
         ctx.body = `<h2>出错啦~,error:${e.message}</h2><div hidden="hidden">${e.stack}</div>`
-
     }
 }

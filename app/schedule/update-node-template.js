@@ -21,7 +21,6 @@ module.exports = class UpdateNodeTemplate extends Subscription {
         const {ctx, app, config} = this
 
         await ctx.curl(config.nodeHomePageTemplateUrl).then(data => {
-            console.log(config.nodeHomePageTemplateUrl)
             app.messenger.sendToApp('update-node-template', data.data.toString())
         }).catch(() => {
             console.error('获取节点模板文件失败.')
