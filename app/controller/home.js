@@ -12,9 +12,9 @@ module.exports = class HomeController extends Controller {
      */
     async index(ctx) {
         if (ctx.request.isTestNode) {
-            await this.nodeHomeIndex(ctx)
-        } else {
             await this.testNodeHomeIndex(ctx)
+        } else {
+            await this.nodeHomeIndex(ctx)
         }
     }
 
@@ -32,13 +32,13 @@ module.exports = class HomeController extends Controller {
         const body = await ctx.curlIntranetApi(presentableAuthUrl, {dataType: 'original'}).then(response => {
             const [contentType, subReleases] = this._findValueByKeyIgnoreUpperLower(response.res.headers, "content-type", "freelog-sub-releases")
             if (contentType.includes('application/json')) {
-                this._pageBuildAuthFailedHandle(JSON.parse(response.data.toString()), nodeInfo, userId)
-                return
+                return this._pageBuildAuthFailedHandle(JSON.parse(response.data.toString()), nodeInfo, userId)
             }
             return ctx.helper.convertNodePageBuild(ctx.config.nodeTemplate, response.data.toString(), nodeInfo, userId, subReleases)
-        })
+        }).catch(ctx.error)
 
         ctx.body = body
+        console.log(11)
     }
 
     /**
@@ -94,7 +94,7 @@ module.exports = class HomeController extends Controller {
         if ([28, 30].includes(responseData.errcode) || responseData.errcode === 3 && responseData.data.authCode === 505) {
             ctx.redirect(`http://www.freelog.com/pages/user/login.html?redirect=${encodeURIComponent(`https://${ctx.host}/`)}`)
         }
-        ctx.body = ctx.helper.convertErrorNodePageBuild(config.nodeTemplate, nodeInfo, userId, responseData)
+        return ctx.helper.convertErrorNodePageBuild(config.nodeTemplate, nodeInfo, userId, responseData)
     }
 
     /**

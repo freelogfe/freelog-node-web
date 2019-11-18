@@ -104,7 +104,6 @@ module.exports = {
 
         $('head').prepend(`<title>${nodeName}-飞致节点</title>`)
         $('head').append(`<script> window.__auth_info__ = ${ JSON.stringify(authInfo) } </script>`)
-
         return $.html()
     }
 }

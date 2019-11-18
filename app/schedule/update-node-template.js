@@ -10,7 +10,7 @@ module.exports = class UpdateNodeTemplate extends Subscription {
 
     static get schedule() {
         return {
-            cron: '* */3 * * * *', // 15分钟间隔
+            cron: '* */20 * * * *', // 15分钟间隔
             type: 'worker',
             immediate: false,
         };
@@ -21,6 +21,7 @@ module.exports = class UpdateNodeTemplate extends Subscription {
         const {ctx, app, config} = this
 
         await ctx.curl(config.nodeHomePageTemplateUrl).then(data => {
+            console.log(config.nodeHomePageTemplateUrl)
             app.messenger.sendToApp('update-node-template', data.data.toString())
         }).catch(() => {
             console.error('获取节点模板文件失败.')

@@ -25,7 +25,7 @@ module.exports = appInfo => {
     /**
      * 节点首页模板文件地址
      */
-    config.nodeHomePageTemplateUrl = "http://static.freelog.com/web-components/index.html"
+    config.nodeHomePageTemplateUrl = "http://frcdn.oss-cn-shenzhen.aliyuncs.com/pagebuild/index.html"
 
     config.alinode = {
         enable: true,
