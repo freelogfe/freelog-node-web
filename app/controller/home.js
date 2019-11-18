@@ -38,7 +38,6 @@ module.exports = class HomeController extends Controller {
         }).catch(ctx.error)
 
         ctx.body = body
-        console.log(11)
     }
 
     /**
@@ -63,8 +62,7 @@ module.exports = class HomeController extends Controller {
         const body = await ctx.curlIntranetApi(`${ctx.webApi.authInfo}/testResources/${nodeInfo.pageBuildId}`, {dataType: 'original'}).then(response => {
             const [contentType, subReleases] = this._findValueByKeyIgnoreUpperLower(response.res.headers, "content-type", "freelog-sub-dependencies")
             if (contentType.includes('application/json')) {
-                this._pageBuildAuthFailedHandle(JSON.parse(response.data.toString()), nodeInfo, userId)
-                return
+                return this._pageBuildAuthFailedHandle(JSON.parse(response.data.toString()), nodeInfo, userId)
             }
             return ctx.helper.convertTestNodePageBuild(ctx.config.nodeTemplate, response.data.toString(), nodeInfo, userId, subReleases)
         })
