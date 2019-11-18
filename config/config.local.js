@@ -8,7 +8,7 @@
 
 module.exports = {
 
-    middleware: ['nodeDomainAuth', 'identityCookieAuthentication'],
+    //middleware: ['nodeDomainAuth', 'identityCookieAuthentication'],
 
 
     /**

@@ -37,8 +37,7 @@ module.exports = (option, app) => async function (ctx, next) {
             return
         }
         if (isTestNode) {
-            const testNodeRuleInfo = await
-                ctx.curlIntranetApi(`${ctx.webApi.testNode}/${nodeInfo.nodeId}`)
+            const testNodeRuleInfo = await ctx.curlIntranetApi(`${ctx.webApi.testNode}/${nodeInfo.nodeId}`)
             nodeInfo.pageBuildId = testNodeRuleInfo ? testNodeRuleInfo.themeId : ""
         }
         if (!nodeInfo.pageBuildId) {

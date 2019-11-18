@@ -70,14 +70,6 @@ module.exports = class HomeController extends Controller {
         ctx.body = body
     }
 
-    /**
-     * 测试节点主页渲染
-     * @param ctx
-     * @returns {Promise<void>}
-     */
-    async testNodeHomeIndex(ctx) {
-
-    }
 
     /**
      * pb资源授权错误处理
