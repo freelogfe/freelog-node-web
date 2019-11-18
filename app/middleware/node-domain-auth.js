@@ -10,8 +10,8 @@ module.exports = (option, app) => async function (ctx, next) {
     try {
 
         if (ctx.request.url.toLowerCase().startsWith('/home/triggerUpdateNodeTemplateEvent'.toLowerCase())) {
-            return await
-                next()
+            await next()
+            return
         }
 
         var isTestNode = false

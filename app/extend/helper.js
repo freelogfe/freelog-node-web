@@ -75,6 +75,7 @@ module.exports = {
             __auth_node_id__: nodeId,
             __auth_node_name__: nodeName,
             __page_build_id: pageBuildId,
+            __page_build_entity_id: pageBuildId.substr(0, 12),
             __page_build_sub_releases: pageBuildSubReleases
         }
 
