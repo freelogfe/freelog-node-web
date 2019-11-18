@@ -1,6 +1,7 @@
 'use strict';
 
 const Controller = require('egg').Controller;
+const {LoginUser} = require('egg-freelog-base/app/enum/identity-type')
 
 module.exports = class HomeController extends Controller {
 
@@ -9,10 +10,22 @@ module.exports = class HomeController extends Controller {
      * @param ctx
      * @returns {Promise<void>}
      */
+    async index(ctx) {
+        if (ctx.request.isTestNode) {
+            await this.nodeHomeIndex(ctx)
+        } else {
+            await this.testNodeHomeIndex(ctx)
+        }
+    }
+
+    /**
+     * 正式节点主页渲染
+     * @param ctx
+     * @returns {Promise<void>}
+     */
     async nodeHomeIndex(ctx) {
 
         const {userId = 0, nodeInfo} = ctx.request
-
         const presentableAuthUrl = `${ctx.webApi.authInfo}/presentables/${nodeInfo.pageBuildId}`
 
         //后期考虑直接把pb文件内容缓存起来,授权时只要授权结果,不拿源文件或者在授权服务里做缓存处理
@@ -26,6 +39,46 @@ module.exports = class HomeController extends Controller {
         })
 
         ctx.body = body
+    }
+
+    /**
+     * 测试节点主页渲染
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async testNodeHomeIndex(ctx) {
+
+        const {userId = 0, nodeInfo} = ctx.request
+
+        if (userId === 0) {
+            let webSite = ctx.env === 'test' ? 'freelog' : 'testFreelog'
+            ctx.redirect(`https://www.${webSite}.com/login?redirect=http%3A%2F%2F${ctx.host}%2F`)
+            return
+        }
+        if (nodeInfo["ownerUserId"] !== userId) {
+            ctx.body = '未获得授权,测试节点访问拒绝'
+            return
+        }
+
+        const body = await ctx.curlIntranetApi(`${ctx.webApi.authInfo}/testResources/${nodeInfo.pageBuildId}`, {dataType: 'original'}).then(response => {
+            const [contentType, subReleases] = this._findValueByKeyIgnoreUpperLower(response.res.headers, "content-type", "freelog-sub-dependencies")
+            if (contentType.includes('application/json')) {
+                this._pageBuildAuthFailedHandle(JSON.parse(response.data.toString()), nodeInfo, userId)
+                return
+            }
+            return ctx.helper.convertTestNodePageBuild(ctx.config.nodeTemplate, response.data.toString(), nodeInfo, userId, subReleases)
+        })
+
+        ctx.body = body
+    }
+
+    /**
+     * 测试节点主页渲染
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async testNodeHomeIndex(ctx) {
+
     }
 
     /**

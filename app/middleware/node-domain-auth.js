@@ -12,7 +12,15 @@ module.exports = (option, app) => async function (ctx, next) {
         if (ctx.request.url.toLowerCase().startsWith('/home/triggerUpdateNodeTemplateEvent'.toLowerCase())) {
             return await next()
         }
-        const nodeDomain = ctx.host.replace(/(\.freelog\.com|\.testfreelog\.com)/i, '')
+
+        var isTestNode = false
+        var nodeDomain = ctx.host.replace(/(\.freelog\.com|\.testfreelog\.com)/i, '')
+
+        if (nodeDomain.startsWith('t.')) {
+            isTestNode = true
+            nodeDomain = nodeDomain.replace('t.', '')
+        }
+
         if (!commonRegex.nodeDomain.test(nodeDomain)) {
             ctx.body = `<h1>sorry,${nodeDomain} is not freelog website</h1>`
             return
@@ -27,12 +35,17 @@ module.exports = (option, app) => async function (ctx, next) {
             ctx.body = `<h1>sorry,${nodeDomain} is not freelog website</h1>`
             return
         }
+        if (isTestNode) {
+            const {themeId = ""} = await ctx.curlIntranetApi(`${ctx.webApi.testNode}/${nodeInfo.nodeId}`)
+            nodeInfo.pageBuildId = themeId
+        }
         if (!nodeInfo.pageBuildId) {
             ctx.body = '<h1>节点还未初始化</h1>'
             return
         }
 
         ctx.request.nodeInfo = nodeInfo
+        ctx.request.isTestNode = isTestNode
 
         ctx.generateNodeJwtInfo(nodeInfo)
 

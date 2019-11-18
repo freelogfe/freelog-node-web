@@ -9,5 +9,5 @@ module.exports = app => {
 
     router.get('/home/triggerUpdateNodeTemplateEvent', controller.home.triggerUpdateNodeTemplateEvent)
 
-    router.get('/*', controller.home.nodeHomeIndex);
+    router.get('/*', controller.home.index);
 };
