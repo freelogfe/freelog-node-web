@@ -30,11 +30,11 @@ module.exports = class HomeController extends Controller {
 
         //后期考虑直接把pb文件内容缓存起来,授权时只要授权结果,不拿源文件或者在授权服务里做缓存处理
         const body = await ctx.curlIntranetApi(presentableAuthUrl, {dataType: 'original'}).then(response => {
-            const [contentType, subReleases] = this._findValueByKeyIgnoreUpperLower(response.res.headers, "content-type", "freelog-sub-releases")
+            const [contentType, subReleases, entityNid] = this._findValueByKeyIgnoreUpperLower(response.res.headers, "content-type", "freelog-sub-dependencies", "freelog-entity-nid")
             if (contentType.includes('application/json')) {
                 return this._pageBuildAuthFailedHandle(JSON.parse(response.data.toString()), nodeInfo, userId)
             }
-            return ctx.helper.convertNodePageBuild(ctx.config.nodeTemplate, response.data.toString(), nodeInfo, userId, subReleases)
+            return ctx.helper.convertNodePageBuild(ctx.config.nodeTemplate, response.data.toString(), nodeInfo, userId, subReleases, entityNid)
         }).catch(ctx.error)
 
         ctx.body = body
@@ -60,11 +60,11 @@ module.exports = class HomeController extends Controller {
         }
 
         const body = await ctx.curlIntranetApi(`${ctx.webApi.authInfo}/testResources/${nodeInfo.pageBuildId}`, {dataType: 'original'}).then(response => {
-            const [contentType, subReleases] = this._findValueByKeyIgnoreUpperLower(response.res.headers, "content-type", "freelog-sub-dependencies")
+            const [contentType, subReleases, entityNid] = this._findValueByKeyIgnoreUpperLower(response.res.headers, "content-type", "freelog-sub-dependencies", "freelog-entity-nid")
             if (contentType.includes('application/json')) {
                 return this._pageBuildAuthFailedHandle(JSON.parse(response.data.toString()), nodeInfo, userId)
             }
-            return ctx.helper.convertTestNodePageBuild(ctx.config.nodeTemplate, response.data.toString(), nodeInfo, userId, subReleases)
+            return ctx.helper.convertNodePageBuild(ctx.config.nodeTemplate, response.data.toString(), nodeInfo, userId, subReleases, entityNid)
         })
 
         ctx.body = body

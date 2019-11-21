@@ -45,5 +45,7 @@ module.exports = appInfo => {
         privateKey: 'e8739ff716660a4c942724d306216612'
     };
 
+    config.customFileLoader = ['app/event-handler/app-events-listener.js']
+
     return config;
 };
