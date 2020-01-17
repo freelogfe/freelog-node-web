@@ -41,7 +41,10 @@ module.exports = (option, app) => async function (ctx, next) {
             nodeInfo.pageBuildId = testNodeRuleInfo ? testNodeRuleInfo.themeId : ""
         }
         if (!nodeInfo.pageBuildId) {
-            ctx.body = `<h1>${isTestNode ? '测试节点' : '节点'}还未初始化</h1>`
+            ctx.body =`<div style="margin-top: 20vh; text-align: center;">
+                            <img src="//frcdn.oss-cn-shenzhen.aliyuncs.com/pagebuild/plubic/images/Node_exception.png" width="280" height="280">
+                            <h1 style="margin-top: 20px; font-size:16px;font-weight:400;line-height:28px;color: #2C3643;">${isTestNode ? '测试节点' : '节点'}异常，错误代码：未添加主题或主题未激活</h1>
+                        </div>`
             return
         }
 
