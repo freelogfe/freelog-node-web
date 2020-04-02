@@ -11,6 +11,7 @@ module.exports = class HomeController extends Controller {
      * @returns {Promise<void>}
      */
     async index(ctx) {
+
         if (ctx.request.isTestNode) {
             await this.testNodeHomeIndex(ctx)
         } else {
