@@ -60,7 +60,6 @@ export default () => {
   }
 
   function getSubNodeDomain(host: string): string {
-    host = 'f-comics.testfreelog.com'
     return host.replace(/(\.freelog\.com|\.testfreelog\.com)/i, '').replace(/^t\./, '')
   }
 }

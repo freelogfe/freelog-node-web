@@ -4,7 +4,7 @@ export default () => {
     gatewayUrl: 'http://api.testfreelog.com',
     nodePageTpl: {
       // 节点首页模板文件地址
-      url: 'http://test-frcdn.oss-cn-shenzhen.aliyuncs.com/pagebuild/pagebuild.html',
+      url: 'http://test-frcdn.oss-cn-shenzhen.aliyuncs.com/pagebuild/index.html',
     },
     /**
      * 本地开发环境身份信息
