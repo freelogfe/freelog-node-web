@@ -3,6 +3,7 @@ import fs = require('fs')
 import path = require('path')
 import { DefaultConfig } from './config.modal'
 
+
 export default (app: EggAppInfo) => {
   const config = {} as DefaultConfig
 
@@ -41,8 +42,8 @@ export default (app: EggAppInfo) => {
 
   config.jwtAuth = {
     cookieName: 'nodeInfo',
-    privateKey: fs.readFileSync(path.join(app.baseDir, 'config/auth_key/private_key.pem')).toString(),
-    publicKey: fs.readFileSync(path.join(app.baseDir, 'config/auth_key/public_key.pem')).toString()
+    privateKey: fs.readFileSync(path.join(app.baseDir, '../auth_key/private_key.pem')).toString(),
+    publicKey: fs.readFileSync(path.join(app.baseDir, '../auth_key/public_key.pem')).toString()
   }
 
   config.clientCredentialInfo = {
