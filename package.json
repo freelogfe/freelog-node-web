@@ -40,7 +40,7 @@
     "dev": "cross-env NODE_ENV=local midway-bin dev --ts",
     "devtest": "cross-env TS_NODE_PROJECT=test/tsconfig.json midway-bin test --ts",
     "lint": "eslint --fix {src,test}/**/*.ts",
-    "start": "egg-scripts start --daemon --title=egg-server-freelog-node-web --framework=midway --ts",
+    "start": "egg-scripts start --title=egg-server-freelog-node-web --framework=midway --ts",
     "start_build": "npm run build && cross-env NODE_ENV=development midway-bin dev",
     "stop": "egg-scripts stop --title=egg-server-freelog-node-web",
     "test": "npm run lint && npm run devtest"

@@ -13,7 +13,7 @@ exports.default = (app) => {
         ignore: [(ctx) => ctx.path.startsWith("/home/triggerUpdateNodeTemplateEvent")]
     };
     config.cluster = {
-        listen: { port: 7777 }
+        listen: { port: 5777 }
     };
     config.view = {
         defaultViewEngine: 'nunjucks',
