@@ -3,39 +3,65 @@
   "version": "1.0.0",
   "description": "飞致网络节点主页",
   "private": true,
-  "egg": {
-    "framework": "egg-freelog-base"
-  },
   "dependencies": {
-    "cheerio": "^1.0.0-rc.3",
-    "egg": "^2.26.0",
-    "egg-alinode": "^2.0.1",
-    "egg-freelog-base": "^1.2.29",
-    "egg-scripts": "^2.13.0",
-    "uuid": "^3.4.0"
+    "egg-cors": "^2.2.3",
+    "egg-freelog-base": "^1.2.35",
+    "egg-scripts": "^2.10.0",
+    "egg-view-nunjucks": "^2.2.0",
+    "fs-extra": "^9.0.0",
+    "jest": "^25.4.0",
+    "midway": "^1.0.0",
+    "uuid": "^7.0.3"
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^10.5.5",
+    "@types/uuid": "^7.0.2",
+    "@waiting/eslint-config": "^2.1.0",
+    "cross-env": "^6.0.0",
+    "egg-ci": "^1.8.0",
+    "eslint": "^6.0.0",
+    "midway-bin": "1",
+    "midway-mock": "1",
+    "mocha": "^6.2.0",
+    "ts-node": "^8.3.0",
+    "tslib": "^1.8.1",
+    "typescript": "^3.5.0"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=10.16.0"
   },
   "scripts": {
-    "start": "egg-scripts start --workers=1",
-    "stop": "egg-scripts stop",
-    "dev": "egg-bin dev",
-    "debug": "egg-bin debug",
-    "test": "npm run lint -- --fix && npm run test-local",
-    "test-local": "egg-bin test",
-    "cov": "egg-bin cov",
-    "lint": "eslint .",
-    "ci": "npm run lint && npm run cov",
-    "autod": "autod"
+    "build": "midway-bin build -c",
+    "ci": "npm run cov",
+    "clean": "midway-bin clean",
+    "cov": "midway-bin cov --ts",
+    "debug": "cross-env NODE_ENV=local midway-bin debug --ts",
+    "dev": "cross-env NODE_ENV=local midway-bin dev --ts",
+    "devtest": "cross-env TS_NODE_PROJECT=test/tsconfig.json midway-bin test --ts",
+    "lint": "eslint --fix {src,test}/**/*.ts",
+    "start": "egg-scripts start --daemon --title=egg-server-freelog-node-web --framework=midway --ts",
+    "start_build": "npm run build && cross-env NODE_ENV=development midway-bin dev",
+    "stop": "egg-scripts stop --title=egg-server-freelog-node-web",
+    "test": "npm run lint && npm run devtest"
   },
   "ci": {
-    "version": "8,9"
+    "version": "10, 12"
+  },
+  "midway-bin-clean": [
+    ".vscode/.tsbuildinfo",
+    "dist"
+  ],
+  "midway-bin-build": {
+    "include": [
+      "app/public",
+      "app/view"
+    ]
   },
   "repository": {
     "type": "git",
     "url": ""
   },
-  "author": "yuliang",
+  "author": "undefined",
   "license": "MIT"
 }
