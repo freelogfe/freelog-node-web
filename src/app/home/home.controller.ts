@@ -18,7 +18,7 @@ export class HomeController {
   @get('/home/triggerUpdateNodeTemplateEvent')
 	public async triggerUpdateNodeTemplateEvent(ctx: Context): Promise<void> {
     try {
-      await ctx.app.runSchedule('update-node-template')
+      ctx.app.messenger.sendToApp('refresh', 'pull')
       ctx.success('模板更新成功')
     } catch(e) {
       ctx.error({

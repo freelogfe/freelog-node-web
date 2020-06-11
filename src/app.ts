@@ -15,6 +15,11 @@ export default class AppBootHook {
   async didReady() {
     // 应用已经启动完毕
     console.log('[App]: Did ready!')
+    
+    this.app.messenger.on('refresh', async (by: string) => {
+      await this.app.runSchedule('update-node-template')
+      this.app.logger.info('Start update by %s', by, process.pid);
+    })
   }
 
   async serverDidReady() {
