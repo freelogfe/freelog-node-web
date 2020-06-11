@@ -19,7 +19,8 @@ export class HomeController {
 	public async triggerUpdateNodeTemplateEvent(ctx: Context): Promise<void> {
     try {
       ctx.app.messenger.sendToApp('refresh', 'pull')
-      ctx.success('模板更新成功')
+      await ctx.app.runSchedule('update-node-template')
+      ctx.success(`模板更新成功！PID：${process.pid}！`)
     } catch(e) {
       ctx.error({
         msg: `模版更新失败：${e.toString()}`,
