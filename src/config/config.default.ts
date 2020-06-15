@@ -52,6 +52,14 @@ export default (app: EggAppInfo) => {
     privateKey: 'e8739ff716660a4c942724d306216612'
   }
 
+  config.cors = {
+    credentials: true,
+    origin(ctx: Context) {
+      const origin = /(test)?freelog\.com\/?$/.test(ctx.request.headers.origin) ? ctx.request.headers.origin : '*'
+      return origin
+    },
+  }
+
   /**
    * 节点主页模板(来源于OSS)
    */

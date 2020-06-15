@@ -5,7 +5,7 @@ export default {
     package: 'egg-static',
   },
   cors: {
-    enable: false,
+    enable: true,
     package: 'egg-cors',
   },
   nunjucks: {
