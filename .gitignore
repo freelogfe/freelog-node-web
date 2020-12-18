@@ -13,3 +13,4 @@ run/
 /test
 dist/
 .history/
+logs/
