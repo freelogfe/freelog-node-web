@@ -11,3 +11,5 @@ run/
 *.sw*
 *.un~
 /test
+dist/
+.history/
