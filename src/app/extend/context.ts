@@ -6,11 +6,16 @@ import { INodeInfo } from "../home/home.model"
 import { Context } from 'midway'
 import { IJwtAuth, ICache } from '../../interface'
 
+export interface NewApi {
+  freelog:  string
+  testfreelog: string
+}
 export interface IExtendedCtx extends Context {
   nodeInfo: INodeInfo | null
   cache: ICache
   generateNodeJwtInfo(jwtAuth: IJwtAuth): void
   redictLoginPage(): void
+  newApi:  NewApi
 }
 
 export default {
@@ -41,7 +46,12 @@ export default {
   },
   redictLoginPage() {
     const ctx = this.ctx
+    ctx.logger.info('login')
     const webSite = ctx.env === 'test' ? 'freelog' : 'testFreelog'
 		ctx.redirect(`https://www.${webSite}.com/login?redirect=${encodeURIComponent(`https://${ctx.host}/`)}`)
+  },
+  newApi: {
+    freelog: 'http://qi.testfreelog.com/v2',
+    testfreelog: ''
   }
 } as IExtendedCtx

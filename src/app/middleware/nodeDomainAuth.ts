@@ -8,7 +8,8 @@ export default () => {
   return async (ctx: Context, next: nextDefinition) => {
     try {
       const nodeInfo: IDomainResolveResult = await resolveNodeDomain(ctx)
-      const subNodeDomain: string = getSubNodeDomain(ctx.host)
+      // const subNodeDomain: string = getSubNodeDomain(ctx.host)
+      const subNodeDomain ="snnaenu";
       const [ title, keywords, description ] = [ '飞致节点', '', '' ]
       if (nodeInfo == null) {
         const message: string = `sorry,${subNodeDomain} is not freelog website` 
@@ -38,28 +39,31 @@ export default () => {
         await next()
       }
     } catch(e) {
-      console.log(e)
+      ctx.logger.info(e)
       ctx.body = e
     }
     
   }
 
   async function resolveNodeDomain(ctx: Context): Promise<IDomainResolveResult> {
-    let subNodeDomain: string = getSubNodeDomain(ctx.host)
-    const regexNodeDomain = new RegExp(/^(?!-)[a-z0-9-]{4,24}(?<!-)$/)
-    if (!regexNodeDomain.test(subNodeDomain)) {
-      return null
-    }
-    const nodeInfo: INodeInfo = await ctx.curlIntranetApi(`${ctx.webApi.nodeInfo}/detail?nodeDomain=${subNodeDomain}`)
+    // let subNodeDomain: string = getSubNodeDomain(ctx.host)
+    // const regexNodeDomain = new RegExp(/^(?!-)[a-z0-9-]{4,24}(?<!-)$/)
+    // if (!regexNodeDomain.test(subNodeDomain)) {
+    //   return null
+    // }
+    const subNodeDomain ="snnaenu";
+    const nodeInfo: INodeInfo = await ctx.curlIntranetApi(`${ctx.newApi.freelog}/nodes/detail?nodeDomain=${subNodeDomain}`,{})
+    ctx.logger.info(nodeInfo)
     if (/^t\./.test(ctx.host)) {
-      const testNodeRuleInfo: ITestNodeRuleInfo = await ctx.curlIntranetApi(`${ctx.webApi.testNode}/${nodeInfo.nodeId}`)
+      const testNodeRuleInfo: ITestNodeRuleInfo = await ctx.curlIntranetApi(`${ctx.newApi.freelog}/${nodeInfo.nodeId}`)
       nodeInfo.isTestNode = true
       nodeInfo.pageBuildId = testNodeRuleInfo ? testNodeRuleInfo.themeId : ""
     }
     return nodeInfo
   }
 
-  function getSubNodeDomain(host: string): string {
-    return host.replace(/(\.freelog\.com|\.testfreelog\.com)/i, '').replace(/^t\./, '')
-  }
+  // function getSubNodeDomain(host: string): string {
+  //   console.log(host)
+  //   return host.replace(/(\.freelog\.com|\.testfreelog\.com)/i, '').replace(/^t\./, '')
+  // }
 }

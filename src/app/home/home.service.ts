@@ -20,13 +20,13 @@ export class HomeService {
     const ctx = this.ctx
     const { userId: __auth_user_id__ }: PlainObject = ctx.request
     const { nodeId: __auth_node_id__, nodeName: __auth_node_name__, pageBuildId: __page_build_id, isTestNode } = nodeInfo
-    const pbAuthUrl = `${ctx.webApi.authInfo}/${isTestNode ? 'testResources' : 'presentables'}/${__page_build_id}`
+    const pbAuthUrl = `${ctx.newApi.freelog}/${isTestNode ? 'testResources' : 'presentables'}/${__page_build_id}`
 
     const rResponse = await ctx.curlIntranetApi(pbAuthUrl, { dataType: 'original' })
     const [ contentType,  __page_build_sub_releases,  __page_build_entity_id ] = this.findValueByKeyIgnoreUpperLower(rResponse.res.headers, [ 'content-type', 'freelog-sub-dependencies', 'freelog-entity-nid' ])
     const authResString = rResponse.data.toString()
     const title = `${__auth_node_name__}-飞致节点`
-    const keywords = ''
+    const keywords = '' 
     let description = ''
     let pbFragment = ''
     let authInfoFragment = ''
