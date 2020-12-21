@@ -1,7 +1,7 @@
 // tslint:disable-next-line:no-reference
 /// <reference path="../../globals.d.ts" />
 import { INodeInfo, ITestNodeRuleInfo, IDomainResolveResult } from '../home/home.model'
-import { nextDefinition, PlainObject } from '../../interface/index'
+import { nextDefinition, PlainObject } from '../../interface'
 import { FreelogContext } from 'egg-freelog-base'
 
 export default () => {
@@ -12,19 +12,19 @@ export default () => {
       const subNodeDomain ="snnaenu";
       const [ title, keywords, description ] = [ '飞致节点', '', '' ]
       if (nodeInfo == null) {
-        const message: string = `sorry,${subNodeDomain} is not freelog website` 
+        const message: string = `sorry,${subNodeDomain} is not freelog website`
         await ctx.render('invalid-nodeDomain.html', { title, keywords, description, message })
-        return 
+        return
       } else {
         if (nodeInfo.status === 2) {
-          const message: string = `sorry,${subNodeDomain} is not freelog website` 
+          const message: string = `sorry,${subNodeDomain} is not freelog website`
           await ctx.render('invalid-nodeDomain.html', { title, keywords, description, message })
-          return 
-        } 
+          return
+        }
         if (nodeInfo.pageBuildId === '') {
           const message: string = `${nodeInfo.isTestNode ? '测试节点' : '节点'}异常，错误代码：未添加主题或主题未激活`
           await ctx.render('no-pagebuild.html', { title, keywords, description, message })
-          return 
+          return
         }
         if (nodeInfo.isTestNode) {
           const { userId }: PlainObject = ctx.request
@@ -42,7 +42,7 @@ export default () => {
       ctx.logger.info(e)
       ctx.body = e
     }
-    
+
   }
 
   async function resolveNodeDomain(ctx: FreelogContext): Promise<IDomainResolveResult> {

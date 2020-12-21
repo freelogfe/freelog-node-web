@@ -1,6 +1,5 @@
 import { controller, get, provide, inject } from 'midway'
 import { HomeService } from './home.service'
-// import { INodePageTpl } from '../../interface'
 import { ApplicationError, FreelogContext } from 'egg-freelog-base'
 
 @provide()

@@ -2,15 +2,14 @@
 /// <reference path="../../globals.d.ts" />
 import uuid = require('uuid')
 import { INodeInfo } from "../home/home.model"
-import { Context } from 'midway'
 import { IJwtAuth, ICache } from '../../interface'
-import {JwtHelper} from 'egg-freelog-base'
+import { FreelogContext, JwtHelper } from 'egg-freelog-base'
 
 export interface NewApi {
   freelog:  string
   testfreelog: string
 }
-export interface IExtendedCtx extends Context {
+export interface IExtendedCtx extends FreelogContext {
   nodeInfo: INodeInfo | null
   cache: ICache
   generateNodeJwtInfo(jwtAuth: IJwtAuth): void
@@ -25,7 +24,7 @@ export default {
   },
   generateNodeJwtInfo(jwtAuth: IJwtAuth): void {
     const { nodeInfo, cookies } = this
-    if (nodeInfo == null) return 
+    if (nodeInfo == null) return
     const currTime = Math.round(new Date().getTime() / 1000)
     const { publicKey, privateKey, cookieName } = jwtAuth
 
@@ -40,7 +39,7 @@ export default {
 
     const jwtStr: string = new JwtHelper(publicKey, privateKey).generateToken(payLoad, 1296000)
     cookies.set(cookieName, jwtStr, {
-      overwrite: true, 
+      overwrite: true,
       signed: false
     })
   },
