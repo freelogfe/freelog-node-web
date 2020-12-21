@@ -2,8 +2,8 @@
 // tslint:disable-next-line:no-reference
 /// <reference path="../../globals.d.ts" />
 import baseExtendInstance = require('egg-freelog-base/app/extend/application')
-import cryptoHelper = require('egg-freelog-base/app/extend/helper/crypto_helper')
-import { provide, inject, Context } from 'midway'
+import { CryptoHelper, CurlResFormatEnum, FreelogContext } from 'egg-freelog-base';
+import { provide, inject } from 'midway'
 
 import { INodeInfo } from './home.model'
 import { PlainObject } from '../../interface'
@@ -12,19 +12,20 @@ import { PlainObject } from '../../interface'
 export class HomeService {
     
   constructor(
-    @inject() private ctx: Context
+    @inject() private ctx: FreelogContext
   ) {}
 
   // 正式节点主页渲染
 	public async renderNodeHomeIndex(nodeInfo: INodeInfo): Promise<void> {
     const ctx = this.ctx
     const { userId: __auth_user_id__ }: PlainObject = ctx.request
-    const { nodeId: __auth_node_id__, nodeName: __auth_node_name__, pageBuildId: __page_build_id, isTestNode } = nodeInfo
-    const pbAuthUrl = `${ctx.newApi.freelog}/${isTestNode ? 'testResources' : 'presentables'}/${__page_build_id}`
+    const { nodeId: __auth_node_id__, nodeName: __auth_node_name__, pageBuildId: __page_build_id } = nodeInfo
+    const pbAuthUrl = `${ctx.webApi.authInfoV2}/presentables/${__page_build_id}/fileStream`
 
-    const rResponse = await ctx.curlIntranetApi(pbAuthUrl, { dataType: 'original' })
+    const rResponse = await ctx.curlIntranetApi(pbAuthUrl,{},CurlResFormatEnum.Original)
     const [ contentType,  __page_build_sub_releases,  __page_build_entity_id ] = this.findValueByKeyIgnoreUpperLower(rResponse.res.headers, [ 'content-type', 'freelog-sub-dependencies', 'freelog-entity-nid' ])
     const authResString = rResponse.data.toString()
+    console.log(authResString)
     const title = `${__auth_node_name__}-飞致节点`
     const keywords = '' 
     let description = ''
@@ -62,7 +63,7 @@ export class HomeService {
     let pageBuildSubReleases: any [] = []
     if (subReleases && baseExtendInstance.validator.isBase64(subReleases)) {
       try {
-        pageBuildSubReleases = JSON.parse(cryptoHelper.base64Decode(subReleases))
+        pageBuildSubReleases = JSON.parse(CryptoHelper.base64Decode(subReleases))
       } catch (e) {
         this.ctx.logger.error('subReleases解析错误', e, subReleases)
       }

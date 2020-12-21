@@ -1,11 +1,11 @@
 // tslint:disable-next-line:no-reference
 /// <reference path="../../globals.d.ts" />
-import { Context } from 'midway'
 import { INodeInfo, ITestNodeRuleInfo, IDomainResolveResult } from '../home/home.model'
 import { nextDefinition, PlainObject } from '../../interface/index'
+import { FreelogContext } from 'egg-freelog-base'
 
 export default () => {
-  return async (ctx: Context, next: nextDefinition) => {
+  return async (ctx: FreelogContext, next: nextDefinition) => {
     try {
       const nodeInfo: IDomainResolveResult = await resolveNodeDomain(ctx)
       // const subNodeDomain: string = getSubNodeDomain(ctx.host)
@@ -45,17 +45,17 @@ export default () => {
     
   }
 
-  async function resolveNodeDomain(ctx: Context): Promise<IDomainResolveResult> {
+  async function resolveNodeDomain(ctx: FreelogContext): Promise<IDomainResolveResult> {
     // let subNodeDomain: string = getSubNodeDomain(ctx.host)
     // const regexNodeDomain = new RegExp(/^(?!-)[a-z0-9-]{4,24}(?<!-)$/)
     // if (!regexNodeDomain.test(subNodeDomain)) {
     //   return null
     // }
     const subNodeDomain ="snnaenu";
-    const nodeInfo: INodeInfo = await ctx.curlIntranetApi(`${ctx.newApi.freelog}/nodes/detail?nodeDomain=${subNodeDomain}`,{})
+    const nodeInfo: INodeInfo = await ctx.curlIntranetApi(`${ctx.webApi.nodeInfoV2}/detail?nodeDomain=${subNodeDomain}`,{})
     ctx.logger.info(nodeInfo)
     if (/^t\./.test(ctx.host)) {
-      const testNodeRuleInfo: ITestNodeRuleInfo = await ctx.curlIntranetApi(`${ctx.newApi.freelog}/${nodeInfo.nodeId}`)
+      const testNodeRuleInfo: ITestNodeRuleInfo = await ctx.curlIntranetApi(`${ctx.webApi.nodeInfoV2}/detail?nodeDomain=${subNodeDomain}`)
       nodeInfo.isTestNode = true
       nodeInfo.pageBuildId = testNodeRuleInfo ? testNodeRuleInfo.themeId : ""
     }

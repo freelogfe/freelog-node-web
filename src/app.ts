@@ -1,11 +1,12 @@
-import { provide, Application, inject, Context } from 'midway'
+import { provide, Application, inject } from 'midway'
+import { FreelogContext } from 'egg-freelog-base'
 
 @provide()
 export default class AppBootHook {
   app: Application
 
   @inject()
-  ctx: Context | undefined
+  ctx: FreelogContext | undefined
 
   constructor(app: Application) {
     this.app = app

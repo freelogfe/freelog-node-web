@@ -1,10 +1,10 @@
 // tslint:disable-next-line:no-reference
 /// <reference path="../../globals.d.ts" />
-import jwtHelper = require('egg-freelog-base/app/extend/helper/jwt_helper')
 import uuid = require('uuid')
 import { INodeInfo } from "../home/home.model"
 import { Context } from 'midway'
 import { IJwtAuth, ICache } from '../../interface'
+import {JwtHelper} from 'egg-freelog-base'
 
 export interface NewApi {
   freelog:  string
@@ -38,7 +38,7 @@ export default {
         jti: uuid.v4().replace(/-/g, ''),
     }, nodeInfo)
 
-    const jwtStr: string = new jwtHelper(publicKey, privateKey).createJwt(payLoad, 1296000)
+    const jwtStr: string = new JwtHelper(publicKey, privateKey).generateToken(payLoad, 1296000)
     cookies.set(cookieName, jwtStr, {
       overwrite: true, 
       signed: false

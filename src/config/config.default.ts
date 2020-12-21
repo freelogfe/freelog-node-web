@@ -1,7 +1,8 @@
-import { EggAppInfo, Context } from 'midway'
+import { EggAppInfo } from 'midway'
 import fs = require('fs')
 import path = require('path')
 import { DefaultConfig } from './config.modal'
+import { FreelogContext } from 'egg-freelog-base'
 
 
 export default (app: EggAppInfo) => {
@@ -11,11 +12,12 @@ export default (app: EggAppInfo) => {
   config.keys = 'd5dd9d6d5d9aa0f36c00b779fa7e3cf4,6a40eb7a1d7d01d508af102a151ab56f' //cookie加密与解密key
 
   // add your config here
-  config.middleware = [ 'identityCookieAuthentication', 'nodeDomainAuth' ]
+  config.middleware = [ 'errorAutoSnapHandler','localIdentityInfoHandler', 'nodeDomainAuth' ]
+  
 
   config.nodeDomainAuth = {
 		enable: true,
-		ignore: [ (ctx: Context) => ctx.path.startsWith("/home/triggerUpdateNodeTemplateEvent") ]
+		ignore: [ (ctx: FreelogContext) => ctx.path.startsWith("/home/triggerUpdateNodeTemplateEvent") ]
 	}
 
   config.cluster = {
@@ -50,11 +52,11 @@ export default (app: EggAppInfo) => {
     clientId: 1004,
     publicKey: 'c8724fd977542b155abac77664093770',
     privateKey: 'e8739ff716660a4c942724d306216612'
-  }
+};
 
   config.cors = {
     credentials: true,
-    origin(ctx: Context) {
+    origin(ctx: FreelogContext) {
       const origin = /(test)?freelog\.com\/?$/.test(ctx.request.headers.origin) ? ctx.request.headers.origin : '*'
       return origin
     },

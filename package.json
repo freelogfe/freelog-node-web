@@ -5,7 +5,7 @@
   "private": true,
   "dependencies": {
     "egg-cors": "^2.2.3",
-    "egg-freelog-base": "^1.2.35",
+    "egg-freelog-base": "^3.0.37",
     "egg-scripts": "^2.10.0",
     "egg-view-nunjucks": "^2.2.0",
     "fs-extra": "^9.0.0",
