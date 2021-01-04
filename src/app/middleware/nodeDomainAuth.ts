@@ -46,14 +46,13 @@ export default () => {
   }
 
   async function resolveNodeDomain(ctx: FreelogContext): Promise<IDomainResolveResult> {
-    // let subNodeDomain: string = getSubNodeDomain(ctx.host)
-    // const regexNodeDomain = new RegExp(/^(?!-)[a-z0-9-]{4,24}(?<!-)$/)
-    // if (!regexNodeDomain.test(subNodeDomain)) {
-    //   return null
-    // }
-    const subNodeDomain ="snnaenu";
+    let subNodeDomain: string = getSubNodeDomain(ctx.host)
+    const regexNodeDomain = new RegExp(/^(?!-)[a-z0-9-]{4,24}(?<!-)$/)
+    if (!regexNodeDomain.test(subNodeDomain) && false) {
+      return null
+    }
+    // subNodeDomain ="snnaenu";
     const nodeInfo: INodeInfo = await ctx.curlIntranetApi(`${ctx.webApi.nodeInfoV2}/detail?nodeDomain=${subNodeDomain}`,{})
-    ctx.logger.info(nodeInfo)
     if (/^t\./.test(ctx.host)) {
       const testNodeRuleInfo: ITestNodeRuleInfo = await ctx.curlIntranetApi(`${ctx.webApi.nodeInfoV2}/detail?nodeDomain=${subNodeDomain}`)
       nodeInfo.isTestNode = true
@@ -62,8 +61,7 @@ export default () => {
     return nodeInfo
   }
 
-  // function getSubNodeDomain(host: string): string {
-  //   console.log(host)
-  //   return host.replace(/(\.freelog\.com|\.testfreelog\.com)/i, '').replace(/^t\./, '')
-  // }
+  function getSubNodeDomain(host: string): string {
+     return host.replace(/(\.freelog\.com|\.testfreelog\.com)/i, '').replace(/^t\./, '')
+  }
 }
