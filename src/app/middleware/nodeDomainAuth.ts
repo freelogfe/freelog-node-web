@@ -50,7 +50,7 @@ export default () => {
     let subNodeDomain: string = ctx.host.split('.')[0]
     const regexNodeDomain = new RegExp(/^(?!-)[a-z0-9-]{4,24}(?<!-)$/)
     console.log(ctx.host, subNodeDomain, 'host')
-    if (regexNodeDomain.test(subNodeDomain)) {
+    if (!regexNodeDomain.test(subNodeDomain)) {
       // TODO 提交代码前注释打开
       return null
     }
