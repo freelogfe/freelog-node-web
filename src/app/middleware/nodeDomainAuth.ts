@@ -56,6 +56,7 @@ export default () => {
     }
     // subNodeDomain ="snnaenu";
     const nodeInfo: INodeInfo = await ctx.curlIntranetApi(`${ctx.webApi.nodeInfoV2}/detail?nodeDomain=${subNodeDomain}`,{})
+    console.log(`${ctx.webApi.nodeInfoV2}/detail?nodeDomain=${subNodeDomain}`)
     if (/^t\./.test(ctx.host)) {
       const testNodeRuleInfo: ITestNodeRuleInfo = await ctx.curlIntranetApi(`${ctx.webApi.nodeInfoV2}/detail?nodeDomain=${subNodeDomain}`)
       nodeInfo.isTestNode = true
