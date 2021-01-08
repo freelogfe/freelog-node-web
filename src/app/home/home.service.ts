@@ -3,6 +3,8 @@
 // import baseExtendInstance = require('egg-freelog-base/app/extend/application')
 import {CurlResFormatEnum, FreelogContext} from 'egg-freelog-base';
 import {provide, inject} from 'midway'
+import fse = require('fs-extra')
+import path = require('path')
 
 import {INodeInfo} from './home.model'
 import {PlainObject} from '../../interface'
@@ -26,7 +28,6 @@ export class HomeService {
 
     const rResponse = await ctx.curlIntranetApi(pbAuthUrl, {}, CurlResFormatEnum.Original)
     
-    console.log(rResponse.res)
     // console.log(rResponse, 323424)
     // const [contentType, __page_build_sub_releases, __page_build_entity_id] = this.findValueByKeyIgnoreUpperLower(rResponse.res.headers, ['content-type', 'freelog-sub-dependencies', 'freelog-entity-nid'])
     const [__page_build_sub_releases, __page_build_entity_id] = this.findValueByKeyIgnoreUpperLower(rResponse.res.headers, ['freelog-sub-dependencies', 'freelog-entity-nid'])
@@ -59,7 +60,15 @@ export class HomeService {
       __page_build_sub_releases: this.resolveSubReleases(__page_build_sub_releases),
     })}</script>`
     // }
-    console.log(!!ctx.cache.nodePageTplContent, __page_build_sub_releases, __page_build_entity_id)
+    // // console.log(!!ctx.cache.nodePageTplContent, __page_build_sub_releases, __page_build_entity_id)
+    // try {
+    //   const data = fse.readFileSync(path.join(ctx.app.baseDir, 'app/view/pagebuild.html'));
+    //   ctx.cache.nodePageTplContent = data.toString()
+    //   // 等待操作结果返回，然后打印结果
+    //   console.log(data, 3343434);
+    // } catch(e) {
+    //   console.log('读取文件发生错误');
+    // }
     ctx.body = await ctx.renderString(ctx.cache.nodePageTplContent, {
       title, keywords, description, pbFragment, authInfoFragment,
     }, {viewEngine: 'nunjucks'})
