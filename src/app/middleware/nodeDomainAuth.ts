@@ -8,6 +8,7 @@ export default () => {
   return async (ctx: FreelogContext, next: nextDefinition) => {
     try {
       const nodeInfo: IDomainResolveResult = await resolveNodeDomain(ctx)
+      console.log(nodeInfo)
       // const subNodeDomain: string = getSubNodeDomain(ctx.host)
       const subNodeDomain ="snnaenu";
       const [ title, keywords, description ] = [ '飞致节点', '', '' ]
@@ -46,8 +47,10 @@ export default () => {
   }
 
   async function resolveNodeDomain(ctx: FreelogContext): Promise<IDomainResolveResult> {
-    let subNodeDomain: string = getSubNodeDomain(ctx.host)
+    let subNodeDomain: string = ctx.host.split('.')[0]
+
     const regexNodeDomain = new RegExp(/^(?!-)[a-z0-9-]{4,24}(?<!-)$/)
+    console.log(subNodeDomain, regexNodeDomain.test(subNodeDomain))
     if (regexNodeDomain.test(subNodeDomain)) {
       // TODO 提交代码前注释打开
       return null
@@ -62,7 +65,7 @@ export default () => {
     return nodeInfo
   }
 
-  function getSubNodeDomain(host: string): string {
-     return host.replace(/(\.freelog\.com|\.testfreelog\.com)/i, '').replace(/^t\./, '')
-  }
+  // function getSubNodeDomain(host: string): string {
+  //    return host.replace(/(\.freelog\.com|\.testfreelog\.com)/i, '').replace(/^t\./, '')
+  // }
 } 
