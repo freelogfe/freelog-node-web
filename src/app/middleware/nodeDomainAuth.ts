@@ -8,7 +8,7 @@ export default () => {
   return async (ctx: FreelogContext, next: nextDefinition) => {
     try {
       const nodeInfo: IDomainResolveResult = await resolveNodeDomain(ctx)
-      console.log(nodeInfo)
+      console.log(nodeInfo, 'nodeInfo')
       // const subNodeDomain: string = getSubNodeDomain(ctx.host)
       const subNodeDomain ="snnaenu";
       const [ title, keywords, description ] = [ '飞致节点', '', '' ]
