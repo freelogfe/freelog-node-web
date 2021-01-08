@@ -49,6 +49,7 @@ export default () => {
     let subNodeDomain: string = getSubNodeDomain(ctx.host)
     const regexNodeDomain = new RegExp(/^(?!-)[a-z0-9-]{4,24}(?<!-)$/)
     if (!regexNodeDomain.test(subNodeDomain)) {
+      // TODO 提交代码前注释打开
       return null
     }
     // subNodeDomain ="snnaenu";

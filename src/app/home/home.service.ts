@@ -3,8 +3,8 @@
 // import baseExtendInstance = require('egg-freelog-base/app/extend/application')
 import {CurlResFormatEnum, FreelogContext} from 'egg-freelog-base';
 import {provide, inject} from 'midway'
-import fse = require('fs-extra')
-import path = require('path')
+// import fse = require('fs-extra')
+// import path = require('path')
 
 import {INodeInfo} from './home.model'
 import {PlainObject} from '../../interface'
@@ -23,12 +23,10 @@ export class HomeService {
     const {userId: __auth_user_id__}: PlainObject = ctx.request
     const {nodeId: __auth_node_id__, nodeName: __auth_node_name__, pageBuildId: __page_build_id} = nodeInfo
     // 请求主题内容
-    // console.log(ctx.webApi.authInfoV2)
     const pbAuthUrl = `${ctx.webApi.authInfoV2}/presentables/${__page_build_id}/fileStream`
 
     const rResponse = await ctx.curlIntranetApi(pbAuthUrl, {}, CurlResFormatEnum.Original)
     
-    // console.log(rResponse, 323424)
     // const [contentType, __page_build_sub_releases, __page_build_entity_id] = this.findValueByKeyIgnoreUpperLower(rResponse.res.headers, ['content-type', 'freelog-sub-dependencies', 'freelog-entity-nid'])
     const [__page_build_sub_releases, __page_build_entity_id] = this.findValueByKeyIgnoreUpperLower(rResponse.res.headers, ['freelog-sub-dependencies', 'freelog-entity-nid'])
     const authResString = rResponse.data.toString()
@@ -60,7 +58,6 @@ export class HomeService {
       __page_build_sub_releases: this.resolveSubReleases(__page_build_sub_releases),
     })}</script>`
     // }
-    // // console.log(!!ctx.cache.nodePageTplContent, __page_build_sub_releases, __page_build_entity_id)
     // try {
     //   const data = fse.readFileSync(path.join(ctx.app.baseDir, 'app/view/pagebuild.html'));
     //   ctx.cache.nodePageTplContent = data.toString()
@@ -75,7 +72,6 @@ export class HomeService {
   }
 
   private resolveSubReleases(subReleases: string): any [] {
-    // console.log(subReleases)
     let pageBuildSubReleases: any [] = []
     if (subReleases) {
       try {
