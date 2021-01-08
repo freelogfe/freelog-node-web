@@ -54,6 +54,7 @@ export default () => {
       // TODO 提交代码前注释打开
       return null
     }
+    console.log(`${ctx.webApi.nodeInfoV2}/detail?nodeDomain=${subNodeDomain}`)
     // subNodeDomain ="snnaenu";
     const nodeInfo: INodeInfo = await ctx.curlIntranetApi(`${ctx.webApi.nodeInfoV2}/detail?nodeDomain=${subNodeDomain}`,{})
     console.log(`${ctx.webApi.nodeInfoV2}/detail?nodeDomain=${subNodeDomain}`)
