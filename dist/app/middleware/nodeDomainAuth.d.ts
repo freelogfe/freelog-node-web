@@ -1,5 +1,5 @@
 /// <reference path="../../../src/globals.d.ts" />
-import { Context } from 'midway';
-import { nextDefinition } from '../../interface/index';
-declare const _default: () => (ctx: Context, next: nextDefinition) => Promise<void>;
+import { nextDefinition } from '../../interface';
+import { FreelogContext } from 'egg-freelog-base';
+declare const _default: () => (ctx: FreelogContext, next: nextDefinition) => Promise<void>;
 export default _default;

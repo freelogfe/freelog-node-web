@@ -1,7 +1,8 @@
-import { Application, Context } from 'midway';
+import { Application } from 'midway';
+import { FreelogContext } from 'egg-freelog-base';
 export default class AppBootHook {
     app: Application;
-    ctx: Context | undefined;
+    ctx: FreelogContext | undefined;
     constructor(app: Application);
     didReady(): Promise<void>;
     serverDidReady(): Promise<void>;
