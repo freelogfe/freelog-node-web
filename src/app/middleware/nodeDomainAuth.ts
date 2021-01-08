@@ -48,7 +48,7 @@ export default () => {
   async function resolveNodeDomain(ctx: FreelogContext): Promise<IDomainResolveResult> {
     let subNodeDomain: string = getSubNodeDomain(ctx.host)
     const regexNodeDomain = new RegExp(/^(?!-)[a-z0-9-]{4,24}(?<!-)$/)
-    if (!regexNodeDomain.test(subNodeDomain)) {
+    if (regexNodeDomain.test(subNodeDomain)) {
       // TODO 提交代码前注释打开
       return null
     }
