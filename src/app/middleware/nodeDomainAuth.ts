@@ -8,8 +8,8 @@ export default () => {
   return async (ctx: FreelogContext, next: nextDefinition) => {
     try {
       const nodeInfo: IDomainResolveResult = await resolveNodeDomain(ctx)
-      const subNodeDomain: string = getSubNodeDomain(ctx.host)
-      // const subNodeDomain ="snnaenu";
+      let subNodeDomain: string = getSubNodeDomain(ctx.host)
+      // subNodeDomain ="snnaenu";
       const [ title, keywords, description ] = [ '飞致节点', '', '' ]
       if (nodeInfo == null) {
         const message: string = `sorry,${subNodeDomain} is not freelog website`
@@ -48,11 +48,11 @@ export default () => {
   async function resolveNodeDomain(ctx: FreelogContext): Promise<IDomainResolveResult> {
     let subNodeDomain: string = ctx.host.split('.')[0]
     const regexNodeDomain = new RegExp(/^(?!-)[a-z0-9-]{4,24}(?<!-)$/)
+    console.log(subNodeDomain)
+    // subNodeDomain ="snnaenu";
     if (!regexNodeDomain.test(subNodeDomain)) {
-      // TODO 提交代码前注释打开
       return null
     }
-    // subNodeDomain ="snnaenu";
     const nodeInfo: INodeInfo = await ctx.curlIntranetApi(`${ctx.webApi.nodeInfoV2}/detail?nodeDomain=${subNodeDomain}`,{})
     if (/^t\./.test(ctx.host)) {
       const testNodeRuleInfo: ITestNodeRuleInfo = await ctx.curlIntranetApi(`${ctx.webApi.nodeInfoV2}/detail?nodeDomain=${subNodeDomain}`)
