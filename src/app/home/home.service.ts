@@ -26,7 +26,7 @@ export class HomeService {
     const pbAuthUrl = `${ctx.webApi.authInfoV2}/presentables/${__page_build_id}/fileStream`
 
     const rResponse = await ctx.curlIntranetApi(pbAuthUrl, {}, CurlResFormatEnum.Original)
-    
+    console.log('request error', rResponse)
     // const [contentType, __page_build_sub_releases, __page_build_entity_id] = this.findValueByKeyIgnoreUpperLower(rResponse.res.headers, ['content-type', 'freelog-sub-dependencies', 'freelog-entity-nid'])
     const [__page_build_sub_releases, __page_build_entity_id] = this.findValueByKeyIgnoreUpperLower(rResponse.res.headers, ['freelog-sub-dependencies', 'freelog-entity-nid'])
     const authResString = rResponse.data.toString()
@@ -66,6 +66,8 @@ export class HomeService {
     // } catch(e) {
     //   console.log('读取文件发生错误');
     // }
+    console.log(rResponse.data,pbFragment, pbAuthUrl)
+
     ctx.body = await ctx.renderString(ctx.cache.nodePageTplContent, {
       title, keywords, description, pbFragment, authInfoFragment,
     }, {viewEngine: 'nunjucks'})

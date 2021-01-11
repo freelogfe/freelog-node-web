@@ -8,9 +8,8 @@ export default () => {
   return async (ctx: FreelogContext, next: nextDefinition) => {
     try {
       const nodeInfo: IDomainResolveResult = await resolveNodeDomain(ctx)
-      console.log(nodeInfo, 'nodeInfo')
-      // const subNodeDomain: string = getSubNodeDomain(ctx.host)
-      const subNodeDomain ="snnaenu";
+      const subNodeDomain: string = getSubNodeDomain(ctx.host)
+      // const subNodeDomain ="snnaenu";
       const [ title, keywords, description ] = [ '飞致节点', '', '' ]
       if (nodeInfo == null) {
         const message: string = `sorry,${subNodeDomain} is not freelog website`
@@ -49,15 +48,12 @@ export default () => {
   async function resolveNodeDomain(ctx: FreelogContext): Promise<IDomainResolveResult> {
     let subNodeDomain: string = ctx.host.split('.')[0]
     const regexNodeDomain = new RegExp(/^(?!-)[a-z0-9-]{4,24}(?<!-)$/)
-    console.log(ctx.host, subNodeDomain, 'host')
     if (!regexNodeDomain.test(subNodeDomain)) {
       // TODO 提交代码前注释打开
       return null
     }
-    console.log(`${ctx.webApi.nodeInfoV2}/detail?nodeDomain=${subNodeDomain}`)
     // subNodeDomain ="snnaenu";
     const nodeInfo: INodeInfo = await ctx.curlIntranetApi(`${ctx.webApi.nodeInfoV2}/detail?nodeDomain=${subNodeDomain}`,{})
-    console.log(`${ctx.webApi.nodeInfoV2}/detail?nodeDomain=${subNodeDomain}`)
     if (/^t\./.test(ctx.host)) {
       const testNodeRuleInfo: ITestNodeRuleInfo = await ctx.curlIntranetApi(`${ctx.webApi.nodeInfoV2}/detail?nodeDomain=${subNodeDomain}`)
       nodeInfo.isTestNode = true
@@ -66,7 +62,7 @@ export default () => {
     return nodeInfo
   }
 
-  // function getSubNodeDomain(host: string): string {
-  //    return host.replace(/(\.freelog\.com|\.testfreelog\.com)/i, '').replace(/^t\./, '')
-  // }
+  function getSubNodeDomain(host: string): string {
+     return host.replace(/(\.freelog\.com|\.testfreelog\.com)/i, '').replace(/^t\./, '')
+  }
 } 
