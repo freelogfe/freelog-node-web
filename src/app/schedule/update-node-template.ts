@@ -5,7 +5,7 @@ import path = require('path')
 export default {
 	schedule: {
 		// cron: '* */1 * * * *', 
-		interval: '300s',
+		interval: '30s',
     type: 'all', // 指定所有的 worker 都需要执行
 		immediate: true,
   },

@@ -46,7 +46,7 @@ export default () => {
   }
 
   async function resolveNodeDomain(ctx: FreelogContext): Promise<IDomainResolveResult> {
-    let subNodeDomain: string = ctx.host.split('.')[0]
+    let subNodeDomain: string = getSubNodeDomain(ctx.host)
     const regexNodeDomain = new RegExp(/^(?!-)[a-z0-9-]{4,24}(?<!-)$/)
     console.log(subNodeDomain)
     // subNodeDomain ="snnaenu";
@@ -63,6 +63,6 @@ export default () => {
   }
 
   function getSubNodeDomain(host: string): string {
-     return host.replace(/(\.freelog\.com|\.testfreelog\.com)/i, '').replace(/^t\./, '')
+     return host.split('.')[0] // host.replace(/(\.freelog\.com|\.testfreelog\.com)/i, '').replace(/^t\./, '')
   }
 } 

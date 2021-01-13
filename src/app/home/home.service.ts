@@ -24,9 +24,9 @@ export class HomeService {
     const {nodeId: __auth_node_id__, nodeName: __auth_node_name__, pageBuildId: __page_build_id} = nodeInfo
     // 请求主题内容
     const pbAuthUrl = `${ctx.webApi.authInfoV2}/presentables/${__page_build_id}/fileStream`
-
+    console.log(pbAuthUrl, nodeInfo)
     const rResponse = await ctx.curlIntranetApi(pbAuthUrl, {}, CurlResFormatEnum.Original)
-    console.log('request error', rResponse)
+    // console.log('request error', rResponse)
     // const [contentType, __page_build_sub_releases, __page_build_entity_id] = this.findValueByKeyIgnoreUpperLower(rResponse.res.headers, ['content-type', 'freelog-sub-dependencies', 'freelog-entity-nid'])
     const [__page_build_sub_releases, __page_build_entity_id] = this.findValueByKeyIgnoreUpperLower(rResponse.res.headers, ['freelog-sub-dependencies', 'freelog-entity-nid'])
     const authResString = rResponse.data.toString()
@@ -58,15 +58,15 @@ export class HomeService {
       __page_build_sub_releases: this.resolveSubReleases(__page_build_sub_releases),
     })}</script>`
     // }
+    /**以下代码用于测试运行时：步骤，1.把运行时js放到pubLic下面，2.pagebuild2.html中引用，3.读取文件 */
     // try {
-    //   const data = fse.readFileSync(path.join(ctx.app.baseDir, 'app/view/pagebuild.html'));
+    //   const data = fse.readFileSync(path.join(ctx.app.baseDir, 'app/view/pagebuild2.html'));
     //   ctx.cache.nodePageTplContent = data.toString()
     //   // 等待操作结果返回，然后打印结果
     //   console.log(data, 3343434);
     // } catch(e) {
     //   console.log('读取文件发生错误');
     // }
-    console.log(rResponse.data,pbFragment, pbAuthUrl)
 
     ctx.body = await ctx.renderString(ctx.cache.nodePageTplContent, {
       title, keywords, description, pbFragment, authInfoFragment,
